@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://b5kqm7x8wnj2d"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "Bolt-Action Rifle"
+description = "Long-range high-damage elimination"
+damage = 50
+fire_rate = 0.8
+projectile_speed = 1000.0
+projectile_count = 1
+spread_angle = 0.0
+pierce_count = 3
+knockback = 400.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["PRECISION", "HEAVY", "PIERCING"])
+shop_price = 400
+magazine_size = 5
+reload_time = 3.5
+is_sustained = false
+explosion_radius = 0.0

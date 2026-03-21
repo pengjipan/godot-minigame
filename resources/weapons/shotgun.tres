@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://d3m7p1wqr5vkx"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "Pump Shotgun"
+description = "Close-range crowd control"
+damage = 10
+fire_rate = 1.2
+projectile_speed = 450.0
+projectile_count = 6
+spread_angle = 30.0
+pierce_count = 1
+knockback = 300.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["AREA", "HEAVY", "BURST"])
+shop_price = 250
+magazine_size = 6
+reload_time = 3.0
+is_sustained = false
+explosion_radius = 0.0
