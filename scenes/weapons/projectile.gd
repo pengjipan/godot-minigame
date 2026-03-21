@@ -8,6 +8,7 @@ var damage: int = 10
 var pierce_count: int = 1
 var owner_player: Node = null
 var hit_count: int = 0
+var debug_timer: float = 0.0
 
 func _ready() -> void:
 	print("[Projectile] Projectile _ready at ", global_position)
@@ -23,10 +24,17 @@ func _process(delta: float) -> void:
 	# Move projectile
 	global_position += direction * speed * delta
 
+	# Debug: print position every 0.5 seconds
+	debug_timer += delta
+	if debug_timer >= 0.5:
+		debug_timer = 0.0
+		print("[Projectile] Position: ", global_position, " moving: ", direction * speed)
+
 	# Destroy if off screen
 	var viewport_rect = get_viewport_rect()
 	if global_position.x < -100 or global_position.x > viewport_rect.size.x + 100 or \
 	   global_position.y < -100 or global_position.y > viewport_rect.size.y + 100:
+		print("[Projectile] Off screen, destroying at ", global_position)
 		queue_free()
 
 ## Initialize projectile
@@ -38,7 +46,18 @@ func initialize(start_position: Vector2, proj_direction: Vector2, proj_speed: fl
 	pierce_count = 1
 	owner_player = get_tree().get_nodes_in_group("player")[0] if get_tree().get_nodes_in_group("player").size() > 0 else null
 	rotation = direction.angle()
-	print("[Projectile] Initialized at pos=", start_position, " dir=", direction)
+	print("[Projectile] Initialized at pos=", global_position, " dir=", direction)
+
+	# Verify collision shape exists and is enabled
+	if has_node("CollisionShape2D"):
+		var shape_node = get_node("CollisionShape2D")
+		print("[Projectile] Collision shape exists, disabled=", shape_node.disabled)
+		if shape_node.shape:
+			print("[Projectile] Shape type: ", shape_node.shape.get_class())
+		else:
+			print("[Projectile] WARNING: CollisionShape2D has no shape!")
+	else:
+		print("[Projectile] ERROR: No CollisionShape2D node!")
 
 func _on_body_entered(body: Node2D) -> void:
 	print("[Projectile] *** HIT BODY: ", body.name)

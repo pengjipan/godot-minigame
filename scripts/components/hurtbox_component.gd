@@ -11,6 +11,17 @@ func _ready() -> void:
 	if not health_component:
 		push_warning("HurtboxComponent parent missing HealthComponent: ", get_parent().name)
 
+	# Debug collision setup
+	print("[Hurtbox] ", get_parent().name, " hurtbox ready")
+	print("[Hurtbox]   Layer: ", collision_layer, " Mask: ", collision_mask)
+	print("[Hurtbox]   Monitoring: ", monitoring, " Monitorable: ", monitorable)
+
+	# Connect to test if signal works
+	area_entered.connect(_on_area_entered_test)
+
+func _on_area_entered_test(area: Area2D) -> void:
+	print("[Hurtbox] !!! AREA ENTERED: ", area.name, " from ", area.get_parent().name if area.get_parent() else "none")
+
 ## Take damage from a hitbox or projectile
 func take_damage(damage: int, source_position: Vector2 = Vector2.ZERO) -> void:
 	if health_component:

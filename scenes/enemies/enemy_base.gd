@@ -41,10 +41,21 @@ func _ready() -> void:
 	if hitbox_component:
 		hitbox_component.set_damage(damage)
 
+	# Verify hurtbox collision shape
+	if hurtbox_component and hurtbox_component.has_node("HurtboxCollisionShape"):
+		var shape_node = hurtbox_component.get_node("HurtboxCollisionShape")
+		print("[Enemy] Hurtbox collision shape exists, disabled=", shape_node.disabled)
+		if shape_node.shape:
+			print("[Enemy] Hurtbox shape: ", shape_node.shape.get_class())
+		else:
+			print("[Enemy] WARNING: Hurtbox has no shape!")
+	else:
+		print("[Enemy] WARNING: No hurtbox collision shape!")
+
 	# Set up simple AI
 	_setup_simple_ai()
 
-	print("[Enemy] Enemy ready, health: ", health_component.current_health if health_component else "N/A")
+	print("[Enemy] Enemy ready at ", global_position, ", health: ", health_component.current_health if health_component else "N/A")
 
 ## Set up simple AI that chases player
 func _setup_simple_ai() -> void:
