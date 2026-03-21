@@ -11,14 +11,16 @@ var aim_direction: Vector2 = Vector2.RIGHT
 var fire_cooldown: float = 0.5
 var time_since_fire: float = 0.0
 var can_auto_fire: bool = true
+var debug_fire_count: int = 0
 
 func _ready() -> void:
-	print("[Weapon] Weapon initialized")
+	print("[Weapon] Weapon initialized at ", global_position)
 	fire_cooldown = 1.0 / fire_rate
 	# Load default projectile if not set
 	if projectile_scene == null:
 		projectile_scene = load("res://scenes/weapons/projectile.tscn")
 		print("[Weapon] Loaded default projectile scene")
+	print("[Weapon] Fire rate: ", fire_rate, " cooldown: ", fire_cooldown)
 
 func _process(delta: float) -> void:
 	time_since_fire += delta
@@ -29,11 +31,12 @@ func _process(delta: float) -> void:
 		var player = get_parent()
 		if player:
 			player = player.get_parent()  # PlayerInventory -> Player
-			if player and player.has_method("get_global_position"):
+			if player and player.is_in_group("player"):
 				var fire_pos = player.global_position
-				fire(fire_pos, aim_direction)
-			else:
-				print("[Weapon] Warning: Could not get player position")
+				if aim_direction.length() > 0:
+					fire(fire_pos, aim_direction)
+				else:
+					print("[Weapon] No aim direction set")
 
 ## Set aiming direction
 func set_aim_direction(direction: Vector2) -> void:
@@ -46,8 +49,9 @@ func fire(fire_position: Vector2, direction: Vector2) -> void:
 		return
 
 	time_since_fire = 0.0
+	debug_fire_count += 1
+	print("[Weapon] FIRING #", debug_fire_count, " from ", fire_position, " direction: ", direction)
 	_spawn_projectile(fire_position, direction)
-	print("[Weapon] Fired projectile from ", fire_position, " in direction ", direction)
 
 ## Create a single projectile
 func _spawn_projectile(position: Vector2, direction: Vector2) -> void:
@@ -55,15 +59,29 @@ func _spawn_projectile(position: Vector2, direction: Vector2) -> void:
 		push_error("[Weapon] No projectile scene!")
 		return
 
+	print("[Weapon] Creating projectile at ", position, " with direction ", direction)
 	var projectile = projectile_scene.instantiate()
-	get_tree().current_scene.add_child(projectile)
+
+	# Add to current scene (game world)
+	var game_world = get_tree().current_scene
+	if game_world:
+		game_world.add_child(projectile)
+		print("[Weapon] Added projectile to ", game_world.name)
+	else:
+		push_error("[Weapon] No current scene!")
+		projectile.queue_free()
+		return
 
 	# Initialize projectile
 	if projectile.has_method("initialize"):
 		projectile.initialize(position, direction, projectile_speed, damage)
+		print("[Weapon] Initialized projectile at ", projectile.global_position)
 	else:
 		projectile.global_position = position
-		if projectile.has_method("set_direction"):
-			projectile.set_direction(direction)
+		print("[Weapon] Set projectile position to ", projectile.global_position)
 
-	print("[Weapon] Spawned projectile at ", position)
+	# Verify it's visible
+	if projectile.has_node("Sprite"):
+		print("[Weapon] Projectile has visible sprite")
+	else:
+		print("[Weapon] WARNING: Projectile has no sprite!")

@@ -39,10 +39,13 @@ func add_weapon(weapon_data: WeaponData) -> void:
 
 ## Set aiming direction for all weapons
 func set_aim_direction(direction: Vector2) -> void:
-	aim_direction = direction.normalized()
-	for weapon in weapons:
-		if weapon.has_method("set_aim_direction"):
-			weapon.set_aim_direction(aim_direction)
+	if direction.length() > 0:
+		aim_direction = direction.normalized()
+		for weapon in weapons:
+			if weapon.has_method("set_aim_direction"):
+				weapon.set_aim_direction(aim_direction)
+	else:
+		print("[PlayerInventory] Warning: Invalid aim direction")
 
 ## Fire all weapons
 func fire(origin_position: Vector2) -> void:

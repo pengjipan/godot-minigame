@@ -78,6 +78,9 @@ func _process(delta: float) -> void:
 	if inventory and nearest_enemy and inventory.has_method("set_aim_direction"):
 		var aim_direction = (nearest_enemy.global_position - global_position).normalized()
 		inventory.set_aim_direction(aim_direction)
+		# Debug: show we found an enemy
+		if Engine.get_frames_drawn() % 60 == 0:  # Print once per second
+			print("[Player] Aiming at enemy at ", nearest_enemy.global_position, " direction: ", aim_direction)
 
 	# Smooth camera follow
 	if camera:
