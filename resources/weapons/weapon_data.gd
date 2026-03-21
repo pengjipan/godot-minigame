@@ -13,6 +13,12 @@ class_name WeaponData
 @export var knockback: float = 200.0
 @export var weapon_icon: String = ""
 @export var projectile_scene: String = "res://scenes/weapons/projectile.tscn"
+@export var weapon_tags: Array[String] = []  # e.g., ["RAPID_FIRE", "BURST"]
+@export var shop_price: int = 100
+@export var magazine_size: int = 6
+@export var reload_time: float = 2.0
+@export var is_sustained: bool = false  # true for Flamethrower, Minigun
+@export var explosion_radius: float = 0.0  # for Grenade Launcher
 
 ## Get fire cooldown in seconds
 func get_fire_cooldown() -> float:
