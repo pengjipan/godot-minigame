@@ -4,6 +4,7 @@ extends Node
 enum GameState {
 	MAIN_MENU,
 	CHARACTER_SELECT,
+	INITIAL_WEAPON_SELECT,  # After character selection, before game start
 	PLAYING,
 	PAUSED,
 	WAVE_BREAK,
@@ -22,6 +23,9 @@ var run_stats: Dictionary = {
 	"damage_taken": 0,
 	"damage_dealt": 0
 }
+
+var selected_starting_weapon: WeaponData = null
+var selected_character: CharacterData = null
 
 var player_instance: Node = null
 var is_game_running: bool = false
