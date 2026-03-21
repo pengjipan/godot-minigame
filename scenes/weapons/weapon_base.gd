@@ -2,6 +2,8 @@ extends Node2D
 ## Base weapon class
 class_name Weapon
 
+const INFINITE_AMMO: int = -1
+
 @export var damage: int = 10
 @export var fire_rate: float = 1.0  # shots per second (1秒1发)
 @export var projectile_speed: float = 500.0
@@ -36,7 +38,7 @@ var reload_timer: float = 0.0
 
 func _ready() -> void:
 	print("[Weapon] Weapon initialized at ", global_position)
-	fire_cooldown = 1.0 / fire_rate
+	fire_cooldown = 1.0 / max(fire_rate, 0.1)
 	current_ammo = magazine_size  # 初始满弹
 
 	# Load default projectile if not set
@@ -48,7 +50,7 @@ func _ready() -> void:
 	if weapon_data:
 		base_damage = weapon_data.damage
 		base_fire_rate = weapon_data.fire_rate
-		base_reload_time = weapon_data.reload_time if weapon_data.has("reload_time") else 3.0
+		base_reload_time = weapon_data.reload_time if "reload_time" in weapon_data else 3.0
 		base_pierce_count = weapon_data.pierce_count
 		base_projectile_count = weapon_data.projectile_count
 		base_knockback = weapon_data.knockback
@@ -65,14 +67,14 @@ func _ready() -> void:
 		fire_cooldown = 1.0 / max(fire_rate, 0.1)
 
 		# Handle magazine
-		if weapon_data.has("magazine_size") and weapon_data.magazine_size > 0:
+		if "magazine_size" in weapon_data and weapon_data.magazine_size > 0:
 			magazine_size = weapon_data.magazine_size
 			current_ammo = magazine_size
 
 		# Handle sustained weapons (no reload)
-		if weapon_data.has("is_sustained") and weapon_data.is_sustained:
-			magazine_size = -1  # Infinite ammo marker
-			current_ammo = 999
+		if "is_sustained" in weapon_data and weapon_data.is_sustained:
+			magazine_size = INFINITE_AMMO
+			current_ammo = 999  # Large number for display/UI purposes
 
 	print("[Weapon] Fire rate: ", fire_rate, " cooldown: ", fire_cooldown)
 	print("[Weapon] Magazine: ", magazine_size, " Reload time: ", reload_time, "s")
