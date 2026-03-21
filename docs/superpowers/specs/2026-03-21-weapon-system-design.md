@@ -478,9 +478,151 @@ Fire every frame if cooldown passed
 
 ---
 
+## Initial Weapon Selection
+
+### Flow (New Game Start)
+
+After character selection, before entering the game world, players choose their first weapon from a recommendation screen.
+
+```
+Main Menu
+      ↓
+Character Select (Potato/Speedy/Tank)
+      ↓
+INITIAL WEAPON SELECTION SCREEN
+      ↓
+Show all 8 weapons
+      ↓
+Highlight 3 recommended weapons based on character class
+      ↓
+Player clicks a weapon
+      ↓
+Confirm selection
+      ↓
+Enter Game World with selected weapon equipped
+```
+
+### Weapon Recommendations by Class
+
+**Potato (Balanced):**
+- **Recommended:** Pistol, Assault Rifle, Sniper
+- **Reason:** PRECISION and BURST tags match +10% bonuses
+- **Default if auto-selected:** Pistol (affordable starter)
+
+**Speedy (Glass Cannon):**
+- **Recommended:** SMG, Assault Rifle, Flamethrower
+- **Reason:** RAPID_FIRE and SUSTAINED tags match +20/+15% bonuses
+- **Default if auto-selected:** SMG (high fire rate, matches playstyle)
+
+**Tank (Survivability):**
+- **Recommended:** Shotgun, Grenade Launcher, Flamethrower
+- **Reason:** AREA and HEAVY tags match +25/+20% bonuses
+- **Default if auto-selected:** Shotgun (crowd control, close range)
+
+### UI Design
+
+**Initial Weapon Selection Screen:**
+```
+┌─────────────────────────────────────────────────────┐
+│         Choose Your Starting Weapon                 │
+│         (Based on your character: Speedy)           │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  ⭐ RECOMMENDED                                     │
+│                                                     │
+│  [SMG Card]      [Assault Rifle Card]   [Flamethr] │
+│   HIGHLIGHTED        HIGHLIGHTED         HIGHLIGHTED│
+│                                                     │
+│  OTHER WEAPONS                                      │
+│                                                     │
+│  [Pistol]  [Shotgun]  [Sniper]  [Grenade]  [Mini] │
+│   NORMAL    NORMAL     NORMAL    NORMAL     NORMAL │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+**Weapon Card (Recommended - Highlighted):**
+```
+┌─────────────────────────────┐
+│ ⭐ RECOMMENDED FOR SPEEDY   │
+│                             │
+│ [Icon]  Vector SMG          │
+│                             │
+│ ◇ RAPID_FIRE  ◇ BURST      │
+│                             │
+│ ⚔ 7   ⚡ 8.0/s  📦 30      │
+│                             │
+│ 💡 +20% fire rate for you!  │
+│                             │
+│      [SELECT]               │
+└─────────────────────────────┘
+```
+
+**Weapon Card (Normal):**
+```
+┌─────────────────────────────┐
+│                             │
+│ [Icon]  Pump Shotgun        │
+│                             │
+│ ◇ AREA  ◇ HEAVY  ◇ BURST  │
+│                             │
+│ ⚔ 10×6  ⚡ 1.2/s  📦 6     │
+│                             │
+│ ⚠️  -10% fire rate for you  │
+│                             │
+│      [SELECT]               │
+└─────────────────────────────┘
+```
+
+### Implementation Details
+
+**1. Add StartingWeaponScreen scene** (`scenes/ui/starting_weapon_screen.tscn`)
+- Display after character selection
+- Show all 8 weapons in grid layout
+- Highlight recommended weapons with gold border / star icon
+- Show class-specific bonus/penalty on each card
+
+**2. Recommendation Logic** (in CharacterData or new helper)
+```gdscript
+func get_recommended_weapons(character_data: CharacterData) -> Array[WeaponData]:
+    var recommendations: Array[WeaponData] = []
+    var all_weapons = _get_all_weapons()
+
+    # Score each weapon based on tag bonuses
+    var scored_weapons = []
+    for weapon in all_weapons:
+        var score = 0.0
+        for tag in weapon.weapon_tags:
+            var bonus = character_data.tag_bonuses.get(tag, 0.0)
+            var penalty = character_data.tag_penalties.get(tag, 0.0)
+            score += (bonus + penalty)
+        scored_weapons.append({"weapon": weapon, "score": score})
+
+    # Sort by score (highest first)
+    scored_weapons.sort_custom(func(a, b): return a.score > b.score)
+
+    # Return top 3
+    for i in range(min(3, scored_weapons.size())):
+        recommendations.append(scored_weapons[i].weapon)
+
+    return recommendations
+```
+
+**3. Integration with GameManager**
+- Add new game state: `GameState.INITIAL_WEAPON_SELECT`
+- After character selection: `GameManager.set_state(GameState.INITIAL_WEAPON_SELECT)`
+- After weapon selection: `GameManager.set_state(GameState.PLAYING)`
+
+**4. Free Starting Weapon**
+- First weapon is FREE (no gold cost)
+- Subsequent weapons purchased in shop cost gold as normal
+- Starting weapon goes directly into PlayerInventory
+
+---
+
 ## Shop Integration
 
-### Flow
+### Flow (Between Waves)
 
 ```
 Wave ends (all enemies killed or timer expires)
