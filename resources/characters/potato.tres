@@ -12,3 +12,8 @@ attack_speed = 1.0
 weapon_damage = 10
 starting_weapon = "res://scenes/weapons/weapon_base.tscn"
 icon_path = ""
+tag_bonuses = {
+"PRECISION": 0.1,
+"BURST": 0.1
+}
+tag_penalties = {}
