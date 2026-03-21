@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxmfv41m1"]
 
-[ext_resource type="Script" path="res://scenes/ui/virtual_joystick.gd"]
+[ext_resource type="Script" path="res://scenes/ui/virtual_joystick.gd" id="1"]
 
 [node name="VirtualJoystick" type="Control"]
 anchor_left = 0.0
@@ -11,7 +11,7 @@ offset_left = 10.0
 offset_top = -110.0
 offset_right = -10.0
 offset_bottom = -10.0
-script = ExtResource("res://scenes/ui/virtual_joystick.gd")
+script = ExtResource("1")
 base_radius = 50.0
 knob_radius = 30.0
 input_deadzone = 0.15
