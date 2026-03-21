@@ -23,6 +23,7 @@ SaveManager="*res://autoload/save_manager.gd"
 AudioManager="*res://autoload/audio_manager.gd"
 LocalizationManager="*res://autoload/localization_manager.gd"
 SynergyCalculator="*res://scripts/systems/synergy_calculator.gd"
+ExperienceManager="*res://scripts/systems/experience_manager.gd"
 
 [display]
 
