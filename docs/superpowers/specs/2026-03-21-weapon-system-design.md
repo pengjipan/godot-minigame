@@ -391,6 +391,316 @@ Penalties discourage anti-synergistic builds (e.g., Tank with spray weapons).
 
 ---
 
+## Experience and Level System
+
+### Overview
+
+Players gain experience by killing enemies. Leveling up grants one stat upgrade choice per level. The system is balanced so players gain approximately 1 level per wave.
+
+### Experience Mechanics
+
+**XP Gain:**
+- Each enemy killed = 1 XP
+- Simple and predictable
+- No XP multipliers or bonuses (for now)
+
+**Level-Up Formula:**
+```gdscript
+func get_xp_required_for_level(level: int) -> int:
+    # Linear scaling: 10 + (level × 5)
+    # Level 1→2: 15 XP
+    # Level 2→3: 20 XP
+    # Level 3→4: 25 XP
+    # Level N→N+1: 10 + (N × 5) XP
+    return 10 + (level * 5)
+```
+
+**Wave Enemy Counts (Configurable):**
+- Wave 1: 15-20 enemies (designed to give 1 level-up)
+- Wave 2: 25-30 enemies (1-2 level-ups)
+- Wave N: scales up
+- Total XP per wave ≈ enemy count
+
+**Design Rationale:**
+- Linear scaling keeps progression predictable
+- Approximately 1 level per wave ensures consistent power growth
+- Can be tuned per wave via configuration
+
+### Level-Up Flow
+
+```
+Enemy dies
+      ↓
+Player.gain_xp(1)
+      ↓
+Check if xp >= xp_required_for_next_level
+      ↓
+If yes:
+  - Level up
+  - Increment pending_stat_picks
+  - Calculate new xp requirement
+  - Continue (can level multiple times in one wave)
+      ↓
+Wave ends
+      ↓
+Check pending_stat_picks > 0
+      ↓
+If yes: Open stat upgrade screen
+      ↓
+Player picks pending_stat_picks times
+      ↓
+Each pick: choose 1 stat from 3 random options
+      ↓
+After all picks: Open shop
+```
+
+**Multi-Level Handling:**
+- If player gains 2+ levels: queue up 2+ picks
+- All picks happen in sequence before shop opens
+- Each pick shows 3 random stat options
+
+---
+
+## Roguelike Stat Upgrade System
+
+### Stat Categories
+
+Inspired by Brotato, covering all core attributes:
+
+#### 1. Survival Stats (Defense, Sustain)
+
+| Stat | Effect | Example Values |
+|------|--------|---------------|
+| Max HP | +20 HP | +20, +30, +40 |
+| Armor | +1 Armor (flat damage reduction) | +1, +2, +3 |
+| HP Regeneration | +1 HP/sec | +0.5, +1, +2 |
+| Dodge | +3% chance to dodge attacks | +3%, +5%, +8% |
+| Damage Taken | -5% damage taken | -5%, -8%, -10% |
+
+#### 2. Attack Stats (Damage, Offense)
+
+| Stat | Effect | Example Values |
+|------|--------|----------------|
+| Damage | +10% damage | +8%, +10%, +12% |
+| Crit Chance | +5% crit chance | +3%, +5%, +7% |
+| Crit Damage | +25% crit damage | +20%, +25%, +30% |
+| Range Damage | +10% damage for ranged weapons | +10%, +12%, +15% |
+| Melee Damage | +10% damage for melee (future) | +10%, +12%, +15% |
+| Piercing | +1 pierce count | +1 (rare) |
+
+#### 3. Speed Stats (Movement, Attack Speed)
+
+| Stat | Effect | Example Values |
+|------|--------|----------------|
+| Move Speed | +5% movement speed | +5%, +8%, +10% |
+| Attack Speed | +8% attack speed | +6%, +8%, +10% |
+| Reload Speed | +10% faster reload | +10%, +15%, +20% |
+| Cooldown Reduction | +5% cooldown reduction | +5%, +8%, +10% |
+
+#### 4. Special Stats (Utility, Economy)
+
+| Stat | Effect | Example Values |
+|------|--------|----------------|
+| Pickup Range | +20 pickup range | +15, +20, +30 |
+| Gold Gain | +10% gold from enemies | +10%, +15%, +20% |
+| XP Gain | +10% XP from enemies | +10%, +15%, +20% |
+| Lifesteal | +3% lifesteal | +2%, +3%, +5% |
+| Knockback | +15% knockback force | +10%, +15%, +20% |
+| Luck | +5% better drops/crits (future) | +5%, +8%, +10% |
+
+### Stat Rarity System
+
+**Common (70% chance):**
+- Small bonuses: +5% damage, +20 HP, +5% move speed
+- Frequently offered
+
+**Uncommon (25% chance):**
+- Medium bonuses: +10% damage, +40 HP, +8% attack speed
+- Better value
+
+**Rare (5% chance):**
+- Large bonuses: +15% damage, +60 HP, +1 piercing
+- Game-changers
+
+### Upgrade Selection UI
+
+```
+┌──────────────────────────────────────────────┐
+│         LEVEL UP!  (Level 3 → 4)             │
+│                                              │
+│    Choose 1 stat upgrade:                    │
+│                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  │ 💚 +30 HP    │  │ ⚔️ +10% DMG  │  │ 👟 +8% Speed │
+│  │              │  │              │  │              │
+│  │ Uncommon     │  │ Common       │  │ Common       │
+│  │              │  │              │  │              │
+│  │  [SELECT]    │  │  [SELECT]    │  │  [SELECT]    │
+│  └──────────────┘  └──────────────┘  └──────────────┘
+│                                              │
+│  Current Stats:                              │
+│  ❤️ 100/130 HP  ⚔️ 120% DMG  👟 200 SPD     │
+└──────────────────────────────────────────────┘
+```
+
+**Selection Logic:**
+1. Pick 3 random stats from stat pool
+2. Roll rarity for each (70/25/5%)
+3. Display with icons and current values
+4. Player clicks one
+5. Apply stat increase immediately
+6. If more picks pending: show next selection
+7. Otherwise: proceed to shop
+
+### Stat Application
+
+**Multiplicative Stats (stacking):**
+- Damage: Each +10% multiplies → 1.0 × 1.1 × 1.1 = 1.21 (21% total after 2 picks)
+- Speed: Same multiplicative stacking
+
+**Additive Stats:**
+- HP: Flat addition → 100 + 30 + 30 = 160
+- Armor: Flat addition → 0 + 1 + 1 = 2
+- Crit Chance: Percentage addition → 0% + 5% + 5% = 10%
+
+### Integration with Existing Systems
+
+**Stats affect:**
+- **Damage** → weapon damage multiplier
+- **Attack Speed** → weapon fire_rate multiplier (stacks with synergies)
+- **Move Speed** → character move_speed multiplier
+- **HP** → character max_health
+- **Armor** → new damage reduction system
+- **Crit** → new critical hit system
+- **Lifesteal** → new healing on damage system
+
+---
+
+## Configuration System
+
+### Wave Configuration
+
+**Wave Config Resource** (`resources/waves/wave_config.gd`):
+```gdscript
+extends Resource
+class_name WaveConfig
+
+@export var wave_number: int = 1
+@export var enemy_count: int = 15
+@export var spawn_rate: float = 1.5  # seconds between spawns
+@export var spawn_distance_min: float = 300
+@export var spawn_distance_max: float = 500
+@export var enemy_health_multiplier: float = 1.0
+@export var enemy_damage_multiplier: float = 1.0
+@export var enemy_speed_multiplier: float = 1.0
+@export var gold_multiplier: float = 1.0  # affects gold drops
+@export var xp_multiplier: float = 1.0  # affects XP drops
+@export var shop_refresh_cost_per_use: int = 5  # wave-specific refresh cost increment
+```
+
+**Example Wave Configs:**
+- `wave_1.tres`: 15 enemies, 1.0x modifiers, 5 gold refresh increment
+- `wave_5.tres`: 40 enemies, 2.0x health, 1.5x damage, 10 gold refresh increment
+- `wave_10.tres`: 80 enemies, 4.0x health, 2.5x damage, 20 gold refresh increment
+
+### Weapon Configuration
+
+Already supported via WeaponData resources, but emphasized:
+
+**All weapon stats are configurable** in `.tres` files:
+- damage
+- fire_rate
+- magazine_size
+- reload_time
+- projectile_speed
+- projectile_count
+- spread_angle
+- pierce_count
+- knockback
+- shop_price
+- weapon_tags
+- is_sustained
+- explosion_radius
+
+**Tuning workflow:**
+1. Open weapon `.tres` file in Godot editor
+2. Adjust values
+3. Test in-game
+4. No code changes needed
+
+### Stat Upgrade Pool Configuration
+
+**Stat Pool Resource** (`resources/upgrades/stat_pool.gd`):
+```gdscript
+extends Resource
+class_name StatPool
+
+@export var available_stats: Array[StatUpgradeData] = []
+
+func get_random_stats(count: int) -> Array[StatUpgradeData]:
+    var selected = []
+    var pool = available_stats.duplicate()
+    pool.shuffle()
+    for i in range(min(count, pool.size())):
+        selected.append(pool[i])
+    return selected
+```
+
+**Stat Upgrade Data** (`resources/upgrades/stat_upgrade_data.gd`):
+```gdscript
+extends Resource
+class_name StatUpgradeData
+
+enum StatType {
+    MAX_HP, ARMOR, HP_REGEN, DODGE, DAMAGE_TAKEN,
+    DAMAGE, CRIT_CHANCE, CRIT_DAMAGE, RANGE_DAMAGE,
+    MOVE_SPEED, ATTACK_SPEED, RELOAD_SPEED, COOLDOWN,
+    PICKUP_RANGE, GOLD_GAIN, XP_GAIN, LIFESTEAL, KNOCKBACK
+}
+
+enum Rarity { COMMON, UNCOMMON, RARE }
+
+@export var stat_type: StatType
+@export var display_name: String = "Damage"
+@export var icon_path: String = ""
+@export var description: String = "Increases damage"
+
+# Value per rarity
+@export var common_value: float = 0.08  # 8%
+@export var uncommon_value: float = 0.10  # 10%
+@export var rare_value: float = 0.15  # 15%
+
+# Rarity weights
+@export var common_weight: int = 70
+@export var uncommon_weight: int = 25
+@export var rare_weight: int = 5
+
+func get_value_for_rarity(rarity: Rarity) -> float:
+    match rarity:
+        Rarity.COMMON: return common_value
+        Rarity.UNCOMMON: return uncommon_value
+        Rarity.RARE: return rare_value
+    return common_value
+
+func roll_rarity() -> Rarity:
+    var total = common_weight + uncommon_weight + rare_weight
+    var roll = randi() % total
+    if roll < common_weight:
+        return Rarity.COMMON
+    elif roll < common_weight + uncommon_weight:
+        return Rarity.UNCOMMON
+    else:
+        return Rarity.RARE
+```
+
+**Designer-friendly:**
+- Create stat upgrade `.tres` files
+- Adjust values per rarity
+- Change rarity weights
+- No code changes needed
+
+---
+
 ## Technical Architecture
 
 ### Data Flow
@@ -627,6 +937,14 @@ func get_recommended_weapons(character_data: CharacterData) -> Array[WeaponData]
 ```
 Wave ends (all enemies killed or timer expires)
       ↓
+Player gains XP from killed enemies
+      ↓
+Check if player leveled up
+      ↓
+If leveled up: Show upgrade selection screen (1 pick per level)
+      ↓
+After upgrade selection (or if no level up): Open shop
+      ↓
 WaveManager._end_wave() called
       ↓
 Set GameManager.state = SHOP
@@ -639,14 +957,53 @@ Filter weapon_pool (exclude owned)
       ↓
 Shuffle and pick 4 random weapons
       ↓
-Display in ShopPanel UI
+Display in ShopPanel UI with refresh button
       ↓
-Player clicks weapon
+Player can either purchase weapon or refresh shop
       ↓
-Check gold >= price
+REFRESH BUTTON CLICKED:
+  - First refresh: FREE (0 gold)
+  - Subsequent refreshes: incremental cost per wave
+  - Wave 1: 0 → 5 → 10 → 15...
+  - Wave 2: 0 → 10 → 20 → 30...
+  - Wave N: 0 → (N×5) → (N×10) → (N×15)...
+  - Regenerate 4 random weapons
+  - Refresh counter resets each wave
       ↓
-Check inventory < 6 weapons
+PURCHASE WEAPON CLICKED:
+  - Check gold >= price
+  - Check inventory < 6 weapons
+  - Deduct gold
+  - ShopSystem.purchase_weapon() returns WeaponData
+  - PlayerInventory.add_weapon_from_data()
+  - Synergies recalculate automatically
+  - UI updates
       ↓
+Shop stays open for 30 seconds (countdown timer)
+      ↓
+When player closes shop or timer expires: Start next wave
+```
+
+### Shop Refresh System
+
+**Refresh Cost Formula:**
+```gdscript
+func get_refresh_cost(wave_number: int, refresh_count: int) -> int:
+    if refresh_count == 0:
+        return 0  # First refresh is free
+    return wave_number * 5 * refresh_count
+```
+
+**Examples:**
+- Wave 1: 0 (free) → 5 → 10 → 15 → 20...
+- Wave 3: 0 (free) → 15 → 30 → 45 → 60...
+- Wave 5: 0 (free) → 25 → 50 → 75 → 100...
+
+**Design Rationale:**
+- Free first refresh encourages experimentation
+- Wave scaling matches increasing gold income
+- Linear growth keeps it predictable
+- Resets each wave to avoid runaway costs
 Deduct gold
       ↓
 ShopSystem.purchase_weapon() returns WeaponData
