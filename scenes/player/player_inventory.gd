@@ -10,7 +10,19 @@ var aim_direction: Vector2 = Vector2.RIGHT
 
 func _ready() -> void:
 	print("[PlayerInventory] Initializing inventory")
-	# Will add weapons later when needed
+
+## Add default weapon
+func add_default_weapon() -> void:
+	print("[PlayerInventory] Adding default weapon")
+	if not ResourceLoader.exists("res://scenes/weapons/weapon_base.tscn"):
+		push_error("[PlayerInventory] Weapon scene not found")
+		return
+
+	var weapon_scene = load("res://scenes/weapons/weapon_base.tscn")
+	var weapon = weapon_scene.instantiate()
+	add_child(weapon)
+	weapons.append(weapon)
+	print("[PlayerInventory] Added weapon, total: ", weapons.size())
 
 ## Add a weapon to inventory
 func add_weapon(weapon_data: WeaponData) -> void:

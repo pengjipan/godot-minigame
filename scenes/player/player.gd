@@ -4,6 +4,7 @@ class_name Player
 
 @export var character_data: CharacterData = null
 @export var camera_smoothing: float = 0.1
+@export var world_bounds: Rect2 = Rect2(0, 0, 1080, 1920)  # 默认竖屏边界
 
 var move_speed: float = 200.0
 var current_velocity: Vector2 = Vector2.ZERO
@@ -28,7 +29,7 @@ func _ready() -> void:
 	camera = $Camera2D
 	inventory = $PlayerInventory
 
-	print("[Player] Components: Health=", health_component != null, " Camera=", camera != null)
+	print("[Player] Components: Health=", health_component != null, " Camera=", camera != null, " Inventory=", inventory != null)
 
 	# Load character data or use default
 	if character_data == null:
@@ -51,6 +52,11 @@ func _ready() -> void:
 
 		# Emit initial health
 		EventBus.health_updated.emit(health_component.current_health, health_component.max_health)
+
+	# Add default weapon to inventory
+	if inventory and inventory.has_method("add_default_weapon"):
+		inventory.add_default_weapon()
+		print("[Player] Added default weapon")
 
 	# Start targeting system
 	set_process(true)
@@ -86,12 +92,14 @@ func _physics_process(delta: float) -> void:
 	if input_dir.length() == 0:
 		# Fallback to keyboard for testing
 		input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-		if input_dir.length() > 0:
-			print("[Player] Using keyboard input: ", input_dir)
 
 	# Apply velocity and move
 	velocity = input_dir * move_speed
 	move_and_slide()
+
+	# Clamp player position to world bounds
+	global_position.x = clamp(global_position.x, world_bounds.position.x + 30, world_bounds.position.x + world_bounds.size.x - 30)
+	global_position.y = clamp(global_position.y, world_bounds.position.y + 30, world_bounds.position.y + world_bounds.size.y - 30)
 
 ## Set joystick input from UI
 func set_joystick_input(input_vec: Vector2) -> void:

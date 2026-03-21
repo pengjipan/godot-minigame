@@ -2,29 +2,37 @@ extends Node2D
 ## Base weapon class
 class_name Weapon
 
-@export var weapon_data: WeaponData = null
+@export var damage: int = 10
+@export var fire_rate: float = 2.0  # shots per second
+@export var projectile_speed: float = 500.0
+@export var projectile_scene: PackedScene = null
 
 var aim_direction: Vector2 = Vector2.RIGHT
-var fire_cooldown: float = 0.0
+var fire_cooldown: float = 0.5
 var time_since_fire: float = 0.0
+var can_auto_fire: bool = true
 
 func _ready() -> void:
-	if weapon_data == null:
-		weapon_data = WeaponData.new()
-	fire_cooldown = weapon_data.get_fire_cooldown()
+	print("[Weapon] Weapon initialized")
+	fire_cooldown = 1.0 / fire_rate
+	# Load default projectile if not set
+	if projectile_scene == null:
+		projectile_scene = load("res://scenes/weapons/projectile.tscn")
+		print("[Weapon] Loaded default projectile scene")
 
 func _process(delta: float) -> void:
 	time_since_fire += delta
 
-## Set weapon data
-func set_weapon_data(data: WeaponData) -> void:
-	weapon_data = data
-	fire_cooldown = weapon_data.get_fire_cooldown()
+	# Auto fire if enabled and cooldown passed
+	if can_auto_fire and time_since_fire >= fire_cooldown:
+		if get_parent() and get_parent().has_method("get_global_position"):
+			var fire_pos = get_parent().global_position
+			fire(fire_pos, aim_direction)
 
 ## Set aiming direction
 func set_aim_direction(direction: Vector2) -> void:
-	aim_direction = direction.normalized()
-	rotation = aim_direction.angle()
+	if direction.length() > 0:
+		aim_direction = direction.normalized()
 
 ## Fire weapon
 func fire(fire_position: Vector2, direction: Vector2) -> void:
@@ -32,23 +40,24 @@ func fire(fire_position: Vector2, direction: Vector2) -> void:
 		return
 
 	time_since_fire = 0.0
-	_spawn_projectiles(fire_position, direction)
-	EventBus.weapon_fired.emit(self, fire_position)
-
-## Spawn projectiles
-func _spawn_projectiles(fire_position: Vector2, direction: Vector2) -> void:
-	var spread_angles = weapon_data.get_spread_angles()
-
-	for angle_offset in spread_angles:
-		var projectile_direction = direction.rotated(angle_offset)
-		_create_projectile(fire_position, projectile_direction)
+	_spawn_projectile(fire_position, direction)
+	print("[Weapon] Fired projectile from ", fire_position, " in direction ", direction)
 
 ## Create a single projectile
-func _create_projectile(position: Vector2, direction: Vector2) -> void:
-	if not ResourceLoader.exists(weapon_data.projectile_scene):
-		push_error("Projectile scene not found: ", weapon_data.projectile_scene)
+func _spawn_projectile(position: Vector2, direction: Vector2) -> void:
+	if projectile_scene == null:
+		push_error("[Weapon] No projectile scene!")
 		return
 
-	var projectile = load(weapon_data.projectile_scene).instantiate()
-	get_tree().root.add_child(projectile)
-	projectile.initialize(position, direction, weapon_data)
+	var projectile = projectile_scene.instantiate()
+	get_tree().current_scene.add_child(projectile)
+
+	# Initialize projectile
+	if projectile.has_method("initialize"):
+		projectile.initialize(position, direction, projectile_speed, damage)
+	else:
+		projectile.global_position = position
+		if projectile.has_method("set_direction"):
+			projectile.set_direction(direction)
+
+	print("[Weapon] Spawned projectile at ", position)
