@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4qlqeut8"]
+[gd_scene load_steps=3 format=3 uid="uid://b4qlqeut8"]
 
 [ext_resource type="Script" path="res://scenes/ui/game_hud.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dxmfv41m1" path="res://scenes/ui/virtual_joystick.tscn" id="2"]
 
 [node name="GameHUD" type="CanvasLayer"]
 script = ExtResource("1")
@@ -11,37 +12,46 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+[node name="TopBar" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 0
+alignment = 0
 
-[node name="WaveLabel" type="Label" parent="MarginContainer/VBox"]
+[node name="WaveLabel" type="Label" parent="MarginContainer/TopBar"]
 layout_mode = 2
 text = "Wave 1 | 60s"
+theme_override_font_sizes/font_size = 24
 
-[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBox"]
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/TopBar"]
 layout_mode = 2
 max_value = 100.0
 value = 100.0
 show_percentage = false
 
-[node name="ExperienceBar" type="ProgressBar" parent="MarginContainer/VBox"]
+[node name="ExperienceBar" type="ProgressBar" parent="MarginContainer/TopBar"]
 layout_mode = 2
 max_value = 100.0
 show_percentage = false
 
-[node name="HBox" type="HBoxContainer" parent="MarginContainer"]
+[node name="BottomBar" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 8
 alignment = 2
 
-[node name="CoinLabel" type="Label" parent="MarginContainer/HBox"]
+[node name="CoinLabel" type="Label" parent="MarginContainer/BottomBar"]
 layout_mode = 2
-text = "Gold: 0"
+text = "💰 0"
+theme_override_font_sizes/font_size = 20
 
-[node name="KillLabel" type="Label" parent="MarginContainer/HBox"]
+[node name="KillLabel" type="Label" parent="MarginContainer/BottomBar"]
 layout_mode = 2
-text = "Kills: 0"
+text = "☠ 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="VirtualJoystick" parent="MarginContainer" instance=ExtResource("2")]
+layout_mode = 2

@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2opzppsx"]
+[gd_scene load_steps=5 format=3 uid="uid://d2opzppsx"]
 
 [ext_resource type="Script" path="res://scenes/menus/character_select.gd" id="1"]
+[ext_resource type="Resource" uid="uid://character_potato" path="res://resources/characters/potato.tres" id="2"]
+[ext_resource type="Resource" uid="uid://character_tank" path="res://resources/characters/tank.tres" id="3"]
+[ext_resource type="Resource" uid="uid://character_speedy" path="res://resources/characters/speedy.tres" id="4"]
 
 [node name="CharacterSelect" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
+available_characters = Array[Resource("res://resources/characters/character_data.gd")]([ExtResource("2"), ExtResource("3"), ExtResource("4")])
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchor_left = 0.5
