@@ -24,7 +24,7 @@ alignment = 0
 
 [node name="WaveLabel" type="Label" parent="MarginContainer/TopBar"]
 layout_mode = 2
-text = "Wave 1 | 60s"
+text = "HUD_WAVE"
 theme_override_font_sizes/font_size = 24
 
 [node name="HealthBar" type="ProgressBar" parent="MarginContainer/TopBar"]

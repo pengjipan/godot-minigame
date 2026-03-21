@@ -15,12 +15,18 @@ config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 run/main_scene="res://scenes/menus/main_menu.tscn"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/translations.csv")
+locale/locale_filter_mode=0
+
 [autoload]
 
 EventBus="*res://autoload/event_bus.gd"
 GameManager="*res://autoload/game_manager.gd"
 SaveManager="*res://autoload/save_manager.gd"
 AudioManager="*res://autoload/audio_manager.gd"
+LocalizationManager="*res://autoload/localization_manager.gd"
 
 [rendering]
 

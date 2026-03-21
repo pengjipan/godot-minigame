@@ -23,7 +23,7 @@ custom_minimum_size = Vector2(400, 600)
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "LEVEL UP!"
+text = "LEVEL_UP_TITLE"
 theme_override_font_sizes/font_size = 32
 alignment = 1
 
@@ -33,19 +33,19 @@ layout_mode = 2
 [node name="Button1" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "Option 1"
+text = "LEVEL_UP_OPTION 1"
 
 [node name="Button2" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "Option 2"
+text = "LEVEL_UP_OPTION 2"
 
 [node name="Button3" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "Option 3"
+text = "LEVEL_UP_OPTION 3"
 
 [node name="Button4" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "Option 4"
+text = "LEVEL_UP_OPTION 4"

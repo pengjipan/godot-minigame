@@ -27,7 +27,7 @@ custom_minimum_size = Vector2(400, 600)
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "SELECT CHARACTER"
+text = "CHAR_SELECT_TITLE"
 theme_override_font_sizes/font_size = 32
 alignment = 1
 
@@ -45,5 +45,5 @@ size_flags_vertical = 3
 [node name="BackButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
-text = "BACK"
+text = "CHAR_BACK"
 theme_override_font_sizes/font_size = 24

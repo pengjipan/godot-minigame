@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1")
-character_name = "Potato"
-description = "A brave warrior with balanced stats. Good for beginners."
+character_name = "CHAR_POTATO_NAME"
+description = "CHAR_POTATO_DESC"
 max_health = 100
 move_speed = 200.0
 attack_speed = 1.0

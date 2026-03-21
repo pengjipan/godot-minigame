@@ -38,17 +38,17 @@ func _on_experience_updated(current: int, max_val: int) -> void:
 func _on_wave_time_updated(time_remaining: float) -> void:
 	if wave_label:
 		var wave = GameManager.current_wave
-		wave_label.text = "Wave %d | %.0fs" % [wave, time_remaining]
+		wave_label.text = tr("HUD_WAVE") % [wave, time_remaining]
 
 func _on_coin_collected(amount: int) -> void:
 	current_gold += amount
 	if coin_label:
-		coin_label.text = "💰 %d" % current_gold
+		coin_label.text = tr("HUD_GOLD") % current_gold
 
 func _on_enemy_died(enemy: Node, position: Vector2) -> void:
 	current_kills += 1
 	if kill_label:
-		kill_label.text = "☠ %d" % current_kills
+		kill_label.text = tr("HUD_KILLS") % current_kills
 
 func _on_joystick_input(input_vector: Vector2) -> void:
 	# Find player and set input

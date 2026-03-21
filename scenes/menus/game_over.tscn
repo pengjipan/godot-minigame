@@ -23,7 +23,7 @@ custom_minimum_size = Vector2(400, 600)
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "GAME OVER"
+text = "GAME_OVER_TITLE"
 theme_override_font_sizes/font_size = 48
 alignment = 1
 
@@ -32,7 +32,7 @@ layout_mode = 2
 
 [node name="StatsLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Stats..."
+ text = "GAME_OVER_STATS"
 theme_override_font_sizes/font_size = 20
 
 [node name="Separator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
@@ -41,11 +41,11 @@ layout_mode = 2
 [node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "TRY AGAIN"
+text = "GAME_OVER_RETRY"
 theme_override_font_sizes/font_size = 24
 
 [node name="MainMenuButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
-text = "MAIN MENU"
+text = "GAME_OVER_MENU"
 theme_override_font_sizes/font_size = 24

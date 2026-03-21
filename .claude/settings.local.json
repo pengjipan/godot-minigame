@@ -7,7 +7,8 @@
       "Bash($env:CLAUDE_CODE_PLUGIN_GIT_TIMEOUT_MS=300000:*)",
       "Bash(export:*)",
       "WebFetch(domain:developer.open-douyin.com)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(cd:*)"
     ]
   }
 }

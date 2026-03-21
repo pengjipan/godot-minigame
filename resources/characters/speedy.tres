@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1")
-character_name = "Speedy"
-description = "Fast movement, low health. Hit and run tactics!"
+character_name = "CHAR_SPEEDY_NAME"
+description = "CHAR_SPEEDY_DESC"
 max_health = 70
 move_speed = 280.0
 attack_speed = 1.3

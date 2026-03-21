@@ -1,0 +1,25 @@
+keys,en,zh_CN
+GAME_TITLE,Survival Shooter,生存射击
+GAME_SUBTITLE,Roguelike Survival Shooter,Roguelike 生存射击游戏
+MENU_START,START GAME,开始游戏
+MENU_SETTINGS,SETTINGS,游戏设置
+MENU_QUIT,QUIT,退出游戏
+CHAR_SELECT_TITLE,SELECT CHARACTER,选择角色
+CHAR_BACK,BACK,返回
+CHAR_POTATO_NAME,Potato Warrior,土豆战士
+CHAR_POTATO_DESC,Balanced character. Good for beginners.,平衡型角色，适合新手上手
+CHAR_TANK_NAME,Heavy Tank,重装坦克
+CHAR_TANK_DESC,High health slow movement. Can take a beating!,高血量，移动慢，能抗能打
+CHAR_SPEEDY_NAME,Speedy,闪电侠
+CHAR_SPEEDY_DESC,Fast movement low health. Hit and run tactics!,移速快，血量低，游走战术
+GAME_OVER_TITLE,GAME OVER,游戏结束
+GAME_OVER_STATS,Stats...,游戏统计数据...
+GAME_OVER_RETRY,TRY AGAIN,再来一局
+GAME_OVER_MENU,MAIN MENU,返回主菜单
+LEVEL_UP_TITLE,LEVEL UP!,升级！
+LEVEL_UP_OPTION,Option,选项
+SHOP_TITLE,SHOP,商店
+SHOP_TIME,30s,30秒
+HUD_WAVE,Wave %d | %.0fs,第 %d 波 | %.0f秒
+HUD_GOLD,💰 %d,💰 %d
+HUD_KILLS,☠ %d,☠ %d
