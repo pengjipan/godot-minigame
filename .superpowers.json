@@ -1,0 +1,24 @@
+{
+  "project": "MiniGame",
+  "version": "1.0.0",
+  "description": "A Godot 4.5 mobile mini game project enhanced with superpowers",
+  "engine": "godot",
+  "engineVersion": "4.5",
+  "features": {
+    "realTimeCollaboration": true,
+    "assetManagement": true,
+    "codeIntelligence": true,
+    "debuggingTools": true
+  },
+  "paths": {
+    "scenes": "res://scenes",
+    "scripts": "res://scenes",
+    "assets": "res://assets",
+    "resources": "res://resources"
+  },
+  "development": {
+    "autoReload": true,
+    "liveEdit": true,
+    "debugLogging": true
+  }
+}
