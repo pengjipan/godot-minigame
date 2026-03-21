@@ -8,7 +8,8 @@
       "Bash(export:*)",
       "WebFetch(domain:developer.open-douyin.com)",
       "Bash(git add:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(test:*)"
     ]
   }
 }

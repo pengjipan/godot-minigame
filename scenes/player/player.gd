@@ -19,6 +19,7 @@ var last_damage_time: float = 0.0
 var damage_flash_duration: float = 0.1
 
 func _ready() -> void:
+	print("[Player] Initializing player...")
 	add_to_group("player")
 
 	# Get components
@@ -27,20 +28,29 @@ func _ready() -> void:
 	camera = $Camera2D
 	inventory = $PlayerInventory
 
+	print("[Player] Components: Health=", health_component != null, " Camera=", camera != null)
+
 	# Load character data or use default
 	if character_data == null:
+		print("[Player] No character data, using default")
 		character_data = CharacterData.new()
 
 	# Apply character stats
 	move_speed = character_data.move_speed
+	print("[Player] Move speed: ", move_speed)
+
 	if health_component:
 		health_component.max_health = character_data.max_health
 		health_component.reset()
+		print("[Player] Health: ", health_component.current_health, "/", health_component.max_health)
 
 	# Connect signals
 	if health_component:
 		health_component.health_depleted.connect(_on_death)
 		health_component.health_changed.connect(_on_health_changed)
+
+		# Emit initial health
+		EventBus.health_updated.emit(health_component.current_health, health_component.max_health)
 
 	# Start targeting system
 	set_process(true)
@@ -49,7 +59,7 @@ func _ready() -> void:
 	if camera:
 		camera.global_position = global_position
 
-	EventBus.game_started.emit()
+	print("[Player] Player ready at position: ", global_position)
 
 func _process(delta: float) -> void:
 	if not GameManager.is_game_running:
@@ -71,8 +81,16 @@ func _physics_process(delta: float) -> void:
 	if not GameManager.is_game_running:
 		return
 
+	# Get input from joystick OR keyboard (for testing)
+	var input_dir = joystick_input
+	if input_dir.length() == 0:
+		# Fallback to keyboard for testing
+		input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		if input_dir.length() > 0:
+			print("[Player] Using keyboard input: ", input_dir)
+
 	# Apply velocity and move
-	velocity = joystick_input * move_speed
+	velocity = input_dir * move_speed
 	move_and_slide()
 
 ## Set joystick input from UI

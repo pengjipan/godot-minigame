@@ -2,57 +2,58 @@ extends Node2D
 ## Main game world scene
 class_name GameWorld
 
-@export var player_scene: String = "res://scenes/player/player.tscn"
-@export var hud_scene: String = "res://scenes/ui/game_hud.tscn"
-@export var level_up_panel_scene: String = "res://scenes/ui/level_up_panel.tscn"
-@export var shop_panel_scene: String = "res://scenes/ui/shop_panel.tscn"
-
 var player: Player = null
+var hud: GameHUD = null
 var wave_manager: WaveManager = null
 var spawn_system: SpawnSystem = null
 var experience_system: ExperienceSystem = null
-var upgrade_system: UpgradeSystem = null
-var shop_system: ShopSystem = null
 
 func _ready() -> void:
-	# Instantiate player
-	if ResourceLoader.exists(player_scene):
-		var player_inst = load(player_scene).instantiate()
-		add_child(player_inst)
-		player = player_inst
-		player.position = Vector2(540, 960)  # Center of portrait screen
+	print("[GameWorld] Initializing game world...")
 
-	# Create UI layers
-	if ResourceLoader.exists(hud_scene):
-		var hud = load(hud_scene).instantiate()
-		add_child(hud)
+	# Get existing nodes from scene
+	player = $Player
+	hud = $GameHUD
 
-	if ResourceLoader.exists(level_up_panel_scene):
-		var panel = load(level_up_panel_scene).instantiate()
-		add_child(panel)
+	if player:
+		print("[GameWorld] Player found at position: ", player.position)
+		# Make sure player has character data
+		if player.character_data == null:
+			print("[GameWorld] Creating default character data for player")
+			player.character_data = CharacterData.new()
+	else:
+		push_error("[GameWorld] Player node not found!")
 
-	if ResourceLoader.exists(shop_panel_scene):
-		var shop = load(shop_panel_scene).instantiate()
-		add_child(shop)
+	if hud:
+		print("[GameWorld] HUD found")
+	else:
+		push_error("[GameWorld] HUD node not found!")
 
-	# Create game systems as nodes
+	# Create game systems
+	print("[GameWorld] Creating game systems...")
+
 	wave_manager = WaveManager.new()
 	add_child(wave_manager)
 
 	spawn_system = SpawnSystem.new()
+	spawn_system.name = "SpawnSystem"
+	spawn_system.spawn_parent = self
 	wave_manager.add_child(spawn_system)
 
 	experience_system = ExperienceSystem.new()
 	add_child(experience_system)
 
-	upgrade_system = UpgradeSystem.new()
-	add_child(upgrade_system)
-
-	shop_system = ShopSystem.new()
-	add_child(shop_system)
+	print("[GameWorld] Systems created. Starting game...")
 
 	# Start game
 	GameManager.set_state(GameManager.GameState.PLAYING)
+	GameManager.is_game_running = true
+	print("[GameWorld] Game is running: ", GameManager.is_game_running)
+
+	# Manually trigger wave start if needed
+	await get_tree().create_timer(0.5).timeout
+	print("[GameWorld] Triggering wave start...")
+	EventBus.wave_started.emit(1)
 
 func _process(delta: float) -> void:
 	pass

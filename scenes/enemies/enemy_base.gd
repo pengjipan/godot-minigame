@@ -15,6 +15,7 @@ var experience_reward: int = 10
 var gold_reward: int = 5
 
 func _ready() -> void:
+	print("[Enemy] Spawning enemy at ", global_position)
 	add_to_group("enemies")
 
 	# Get components
@@ -22,31 +23,33 @@ func _ready() -> void:
 	hurtbox_component = $HurtboxComponent
 	hitbox_component = $HitboxComponent
 
-	# Load enemy data or use default
-	if enemy_data == null:
-		enemy_data = EnemyData.new()
+	# Use default values for now
+	move_speed = 100.0
+	damage = 5
+	experience_reward = 10
+	gold_reward = 5
 
-	# Apply enemy stats
-	move_speed = enemy_data.move_speed
-	damage = enemy_data.damage
-	experience_reward = enemy_data.experience_reward
-	gold_reward = enemy_data.gold_reward
-
+	# Set up health
 	if health_component:
-		health_component.max_health = enemy_data.max_health
+		health_component.max_health = 20
 		health_component.reset()
+		health_component.health_depleted.connect(_on_death)
+		print("[Enemy] Health component initialized")
+	else:
+		push_error("[Enemy] HealthComponent not found!")
 
 	if hitbox_component:
 		hitbox_component.set_damage(damage)
 
-	# Connect signals
-	if health_component:
-		health_component.health_depleted.connect(_on_death)
+	# Set up simple AI
+	_setup_simple_ai()
 
-	# Set up AI
-	_setup_ai()
+	print("[Enemy] Enemy ready, health: ", health_component.current_health if health_component else "N/A")
 
-	EventBus.enemy_spawned.emit(self)
+## Set up simple AI that chases player
+func _setup_simple_ai() -> void:
+	# Simple built-in AI - chase player
+	set_physics_process(true)
 
 ## Set up AI behavior based on type
 func _setup_ai() -> void:
@@ -54,7 +57,7 @@ func _setup_ai() -> void:
 		ai_component.queue_free()
 
 	var ai_script
-	if enemy_data.ai_type == "ranged":
+	if enemy_data and enemy_data.ai_type == "ranged":
 		ai_script = preload("res://scripts/ai/ranged_ai.gd")
 	else:
 		ai_script = preload("res://scripts/ai/melee_ai.gd")
@@ -67,13 +70,15 @@ func _physics_process(delta: float) -> void:
 	if not GameManager.is_game_running:
 		return
 
-	# AI updates velocity
-	if ai_component and ai_component.has_method("update"):
-		ai_component.update(self, delta)
+	# Simple AI: chase player
+	var player_nodes = get_tree().get_nodes_in_group("player")
+	if player_nodes.is_empty():
+		return
 
-	# Apply velocity
-	if velocity.length() > 0:
-		move_and_slide()
+	var player = player_nodes[0]
+	var direction = (player.global_position - global_position).normalized()
+	velocity = direction * move_speed
+	move_and_slide()
 
 ## Apply knockback
 func apply_knockback(force: Vector2) -> void:
