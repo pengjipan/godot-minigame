@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 	_update_nearest_enemy()
 
 	# Update weapon aiming
-	if inventory and nearest_enemy:
+	if inventory and nearest_enemy and inventory.has_method("set_aim_direction"):
 		var aim_direction = (nearest_enemy.global_position - global_position).normalized()
 		inventory.set_aim_direction(aim_direction)
 

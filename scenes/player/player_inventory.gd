@@ -9,21 +9,21 @@ var aim_direction: Vector2 = Vector2.RIGHT
 @export var starting_weapon_data: WeaponData = null
 
 func _ready() -> void:
-	# Equip starting weapon
-	if starting_weapon_data:
-		add_weapon(starting_weapon_data)
+	print("[PlayerInventory] Initializing inventory")
+	# Will add weapons later when needed
 
 ## Add a weapon to inventory
 func add_weapon(weapon_data: WeaponData) -> void:
-	if not ResourceLoader.exists(weapon_data.weapon_data.weapon_data):
-		push_error("Weapon scene not found: ", weapon_data.weapon_scene)
+	# Simplified for now - just load base weapon
+	if not ResourceLoader.exists("res://scenes/weapons/weapon_base.tscn"):
+		push_error("[PlayerInventory] Weapon scene not found")
 		return
 
 	var weapon_scene = load("res://scenes/weapons/weapon_base.tscn")
 	var weapon = weapon_scene.instantiate()
-	weapon.set_weapon_data(weapon_data)
 	add_child(weapon)
 	weapons.append(weapon)
+	print("[PlayerInventory] Added weapon, total: ", weapons.size())
 
 ## Set aiming direction for all weapons
 func set_aim_direction(direction: Vector2) -> void:
