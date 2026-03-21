@@ -10,6 +10,14 @@ class_name CharacterData
 @export var weapon_damage: int = 10
 @export var starting_weapon: String = "res://scenes/weapons/weapon_base.tscn"
 @export var icon_path: String = ""
+@export var tag_bonuses: Dictionary = {}  # e.g., {"RAPID_FIRE": 0.20}
+@export var tag_penalties: Dictionary = {}  # e.g., {"HEAVY": -0.15}
+
+## Get multiplier for a specific tag
+func get_tag_multiplier(tag: String) -> float:
+	var bonus = tag_bonuses.get(tag, 0.0)
+	var penalty = tag_penalties.get(tag, 0.0)
+	return 1.0 + bonus + penalty
 
 ## Get all stats as dictionary
 func get_stats() -> Dictionary:

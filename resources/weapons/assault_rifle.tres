@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://cy5n8t2qm6wrj"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "M4 Carbine"
+description = "Versatile all-rounder"
+damage = 15
+fire_rate = 5.0
+projectile_speed = 700.0
+projectile_count = 1
+spread_angle = 0.0
+pierce_count = 1
+knockback = 200.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["RAPID_FIRE", "PRECISION", "BURST"])
+shop_price = 300
+magazine_size = 20
+reload_time = 2.2
+is_sustained = false
+explosion_radius = 0.0

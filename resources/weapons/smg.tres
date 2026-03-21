@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://b8kp2m9nh4tjq"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "Vector SMG"
+description = "High fire rate spray weapon"
+damage = 7
+fire_rate = 8.0
+projectile_speed = 500.0
+projectile_count = 1
+spread_angle = 5.0
+pierce_count = 1
+knockback = 100.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["RAPID_FIRE", "BURST"])
+shop_price = 200
+magazine_size = 30
+reload_time = 2.5
+is_sustained = false
+explosion_radius = 0.0

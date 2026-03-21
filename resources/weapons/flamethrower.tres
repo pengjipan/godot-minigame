@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://c8jxn4p9vqt3f"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "Inferno Projector"
+description = "Continuous close-range area denial"
+damage = 5
+fire_rate = 10.0
+projectile_speed = 300.0
+projectile_count = 3
+spread_angle = 20.0
+pierce_count = 1
+knockback = 50.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["AREA", "SUSTAINED"])
+shop_price = 350
+magazine_size = 0
+reload_time = 0.0
+is_sustained = true
+explosion_radius = 0.0

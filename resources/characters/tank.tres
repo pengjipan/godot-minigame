@@ -12,3 +12,10 @@ attack_speed = 0.8
 weapon_damage = 8
 starting_weapon = "res://scenes/weapons/weapon_base.tscn"
 icon_path = ""
+tag_bonuses = {
+"AREA": 0.25,
+"HEAVY": 0.2
+}
+tag_penalties = {
+"RAPID_FIRE": -0.1
+}

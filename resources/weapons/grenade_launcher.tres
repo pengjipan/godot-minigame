@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://d9myo5r2wsv4h"]
+
+[ext_resource type="Script" path="res://resources/weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+weapon_name = "40mm Launcher"
+description = "Explosive AoE damage"
+damage = 35
+fire_rate = 1.0
+projectile_speed = 400.0
+projectile_count = 1
+spread_angle = 0.0
+pierce_count = 999
+knockback = 500.0
+weapon_icon = ""
+projectile_scene = "res://scenes/weapons/projectile.tscn"
+weapon_tags = Array[String](["AREA", "HEAVY", "BURST"])
+shop_price = 450
+magazine_size = 4
+reload_time = 4.0
+is_sustained = false
+explosion_radius = 80.0
