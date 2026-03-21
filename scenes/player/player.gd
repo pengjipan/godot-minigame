@@ -127,9 +127,18 @@ func _update_nearest_enemy() -> void:
 
 ## Called when player takes damage
 func _on_health_changed(current: int, max: int) -> void:
+	print("[Player] Health changed: ", current, "/", max)
 	EventBus.health_updated.emit(current, max)
 	EventBus.player_damaged.emit(current, max)
 	last_damage_time = Time.get_ticks_msec() / 1000.0
+
+	# Flash red when damaged
+	if has_node("Sprite"):
+		var sprite = get_node("Sprite")
+		sprite.modulate = Color(1, 0.5, 0.5)
+		await get_tree().create_timer(0.2).timeout
+		if is_instance_valid(sprite):
+			sprite.modulate = Color(1, 1, 1)
 
 ## Called when player dies
 func _on_death() -> void:

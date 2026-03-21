@@ -86,6 +86,7 @@ func apply_knockback(force: Vector2) -> void:
 
 ## Called when enemy dies
 func _on_death() -> void:
+	print("[Enemy] Enemy died at ", global_position)
 	EventBus.enemy_died.emit(self, global_position)
 	GameManager.add_run_stat("enemies_killed", 1)
 
@@ -93,6 +94,18 @@ func _on_death() -> void:
 	_drop_rewards()
 
 	queue_free()
+
+## Take damage (for direct damage calls)
+func take_damage(amount: int) -> void:
+	if health_component:
+		health_component.take_damage(amount)
+		# Flash red when damaged
+		if has_node("Sprite"):
+			var sprite = get_node("Sprite")
+			sprite.modulate = Color(1, 0.5, 0.5)
+			await get_tree().create_timer(0.1).timeout
+			if is_instance_valid(sprite):
+				sprite.modulate = Color(1, 1, 1)
 
 ## Drop experience and gold
 func _drop_rewards() -> void:

@@ -25,9 +25,15 @@ func _process(delta: float) -> void:
 
 	# Auto fire if enabled and cooldown passed
 	if can_auto_fire and time_since_fire >= fire_cooldown:
-		if get_parent() and get_parent().has_method("get_global_position"):
-			var fire_pos = get_parent().global_position
-			fire(fire_pos, aim_direction)
+		# Get player position from inventory parent
+		var player = get_parent()
+		if player:
+			player = player.get_parent()  # PlayerInventory -> Player
+			if player and player.has_method("get_global_position"):
+				var fire_pos = player.global_position
+				fire(fire_pos, aim_direction)
+			else:
+				print("[Weapon] Warning: Could not get player position")
 
 ## Set aiming direction
 func set_aim_direction(direction: Vector2) -> void:

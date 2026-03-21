@@ -11,9 +11,12 @@ var owner_node: Node = null
 func _ready() -> void:
 	owner_node = get_parent()
 	area_entered.connect(_on_area_entered)
+	print("[Hitbox] ", owner_node.name if owner_node else "Unknown", " hitbox ready")
 
 func _on_area_entered(area: Area2D) -> void:
-	if area is HurtboxComponent:
+	print("[Hitbox] Detected collision with: ", area.name, " (", area.get_class(), ")")
+	if area.name == "HurtboxComponent" or area is HurtboxComponent:
+		print("[Hitbox] Dealing ", damage, " damage to ", area.get_parent().name if area.get_parent() else "Unknown")
 		area.take_damage(damage, global_position)
 		hit.emit(area.get_parent())
 
