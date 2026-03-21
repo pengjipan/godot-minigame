@@ -20,6 +20,7 @@ var base_reload_time: float = 3.0
 var base_pierce_count: int = 1
 var base_projectile_count: int = 1
 var base_knockback: float = 200.0
+var base_explosion_radius: float = 0.0
 
 var aim_direction: Vector2 = Vector2.RIGHT
 var fire_cooldown: float = 1.0
@@ -31,6 +32,7 @@ var debug_fire_count: int = 0
 var pierce_count: int = 1
 var projectile_count: int = 1
 var knockback: float = 200.0
+var explosion_radius: float = 0.0
 
 # 弹匣系统
 var current_ammo: int = 6
@@ -55,6 +57,7 @@ func _ready() -> void:
 		base_pierce_count = weapon_data.pierce_count
 		base_projectile_count = weapon_data.projectile_count
 		base_knockback = weapon_data.knockback
+		base_explosion_radius = weapon_data.explosion_radius if "explosion_radius" in weapon_data else 0.0
 
 		# Apply base values
 		damage = base_damage
@@ -63,6 +66,7 @@ func _ready() -> void:
 		pierce_count = base_pierce_count
 		projectile_count = base_projectile_count
 		knockback = base_knockback
+		explosion_radius = base_explosion_radius
 
 		# Update derived values
 		fire_cooldown = 1.0 / max(fire_rate, 0.1)
@@ -183,7 +187,7 @@ func _spawn_projectile(position: Vector2, direction: Vector2) -> void:
 
 	# Initialize projectile
 	if projectile.has_method("initialize"):
-		projectile.initialize(position, direction, projectile_speed, damage)
+		projectile.initialize(position, direction, projectile_speed, damage, pierce_count, explosion_radius)
 		print("[Weapon] Initialized projectile at ", projectile.global_position)
 	else:
 		projectile.global_position = position
