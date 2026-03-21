@@ -3,7 +3,7 @@ extends Node
 class_name PlayerInventory
 
 var weapons: Array[Node] = []
-var weapon_data_list: Array = []  # Stores WeaponData resources
+var weapon_data_list: Array[WeaponData] = []  # Stores WeaponData resources
 const MAX_WEAPONS: int = 6
 var current_weapon_slot: int = 0
 var aim_direction: Vector2 = Vector2.RIGHT
@@ -22,6 +22,9 @@ func add_default_weapon() -> void:
 
 	var weapon_scene = load("res://scenes/weapons/weapon_base.tscn")
 	var weapon = weapon_scene.instantiate()
+	if weapon == null:
+		push_error("[PlayerInventory] Failed to instantiate weapon")
+		return
 	add_child(weapon)
 	weapons.append(weapon)
 	weapon_data_list.append(null)  # Keep arrays in sync
@@ -46,6 +49,9 @@ func add_weapon_from_data(weapon_data: WeaponData) -> bool:
 
 	var weapon_scene = load("res://scenes/weapons/weapon_base.tscn")
 	var weapon = weapon_scene.instantiate()
+	if weapon == null:
+		push_error("[PlayerInventory] Failed to instantiate weapon")
+		return false
 
 	# Assign weapon_data
 	if weapon.has("weapon_data"):
@@ -86,6 +92,8 @@ func recalculate_synergies() -> void:
 		var weapon = weapons[i]
 		var weapon_data = weapon_data_list[i]
 
+		if weapon == null:
+			continue
 		# Skip weapons without data
 		if weapon_data == null:
 			continue
@@ -110,6 +118,8 @@ func set_aim_direction(direction: Vector2) -> void:
 	if direction.length() > 0:
 		aim_direction = direction.normalized()
 		for weapon in weapons:
+			if weapon == null:
+				continue
 			if weapon.has_method("set_aim_direction"):
 				weapon.set_aim_direction(aim_direction)
 	else:
@@ -118,6 +128,8 @@ func set_aim_direction(direction: Vector2) -> void:
 ## Fire all weapons
 func fire(origin_position: Vector2) -> void:
 	for weapon in weapons:
+		if weapon == null:
+			continue
 		if weapon.has_method("fire"):
 			weapon.fire(origin_position, aim_direction)
 
