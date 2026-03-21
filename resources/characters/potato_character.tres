@@ -1,0 +1,10 @@
+[gd_resource type="CharacterData" format=3]
+
+character_name = "Potato"
+description = "A brave potato warrior"
+max_health = 100
+move_speed = 200.0
+attack_speed = 1.0
+weapon_damage = 10
+starting_weapon = "res://scenes/weapons/weapon_base.tscn"
+icon_path = ""

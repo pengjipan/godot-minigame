@@ -2,6 +2,29 @@
 
 ## Completed Phases
 
+### Phase 5: Experience & Upgrades ✅
+- [x] ExperienceSystem - Track player level and experience
+- [x] UpgradeSystem - Random upgrade selection from pool
+- [x] ShopSystem - Item purchasing between waves
+- [x] ExperienceGem item - Collectible experience pickups
+- [x] CoinPickup item - Collectible gold pickups
+
+### Phase 6: UI System ✅
+- [x] GameHUD - Real-time health/experience/wave/gold display
+- [x] LevelUpPanel - Upgrade selection interface
+- [x] ShopPanel - Item shop between waves
+- [x] Event-driven UI updates via EventBus
+
+### Phase 7: Menu System ✅
+- [x] MainMenu - Game entry point
+- [x] CharacterSelect - Character selection screen
+- [x] GameOverScreen - Statistics display at game end
+
+### Phase 8: Game World ✅
+- [x] GameWorld - Main game scene coordinator
+- [x] Integrated all systems (waves, spawning, experience, upgrades, shop)
+- [x] Scene management and transitions
+
 ### Phase 1: Core Infrastructure ✅
 - [x] EventBus autoload - Global signal central hub
 - [x] GameManager autoload - Game state machine and run statistics
@@ -38,24 +61,16 @@
 
 ## Next Steps (TODO)
 
-### Phase 5: Wave & Progress
-- [ ] Experience system and collection
-- [ ] Level up system with upgrade selection
-- [ ] Shop system for item purchases
+### Phase 9: Scene Files & Testing
+- [ ] Create actual .tscn scene files (currently using scripts)
+- [ ] Build player scene with components
+- [ ] Build enemy base scene with components
+- [ ] Build weapon scene
+- [ ] Build projectile scene
+- [ ] Build HUD and UI scenes
+- [ ] Test scenes for each system
 
-### Phase 6: UI System
-- [ ] Game HUD with health/experience/wave display
-- [ ] Level up panel UI
-- [ ] Shop panel UI
-- [ ] Pause menu
-- [ ] Game over screen
-
-### Phase 7: Menus
-- [ ] Main menu
-- [ ] Character selection screen
-- [ ] Game over statistics
-
-### Phase 8-10: Optimization & Polish
+### Phase 10: Optimization & Polish
 - [ ] Create test scenes for each system
 - [ ] Performance optimization
 - [ ] Visual effects and polish
@@ -91,9 +106,9 @@ scripts/
 ├── systems/
 │   ├── spawn_system.gd       ✅
 │   ├── wave_manager.gd       ✅
-│   ├── experience_system.gd  (TODO)
-│   ├── upgrade_system.gd     (TODO)
-│   └── shop_system.gd        (TODO)
+│   ├── experience_system.gd  ✅
+│   ├── upgrade_system.gd     ✅
+│   └── shop_system.gd        ✅
 └── utils/
     ├── object_pool.gd   ✅
     └── screen_utils.gd  ✅
@@ -107,9 +122,20 @@ scenes/
 ├── weapons/
 │   ├── weapon_base.gd        ✅
 │   └── projectile.gd         ✅
-├── ui/
-│   └── virtual_joystick.gd   ✅
-└── items/                     (TODO)
+├── ui/                        ✅
+│   ├── virtual_joystick.gd
+│   ├── game_hud.gd
+│   ├── level_up_panel.gd
+│   └── shop_panel.gd
+├── items/                     ✅
+│   ├── experience_gem.gd
+│   └── coin_pickup.gd
+├── menus/                     ✅
+│   ├── main_menu.gd
+│   ├── character_select.gd
+│   └── game_over.gd
+└── game/                      ✅
+    └── game_world.gd
 
 resources/
 ├── characters/

@@ -1,0 +1,7 @@
+[gd_resource type="UpgradeData" format=3]
+
+upgrade_name = "Health Boost"
+description = "Increase max health by 20"
+rarity = 0
+icon_path = ""
+stat_modifiers = {"max_health": {"type": "add", "value": 20}}
