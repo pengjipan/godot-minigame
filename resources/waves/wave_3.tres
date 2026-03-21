@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WaveConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/waves/wave_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+wave_number = 3
+enemy_count = 35
+spawn_rate = 1.5
+spawn_distance_min = 300.0
+spawn_distance_max = 500.0
+enemy_health_mult = 1.5
+enemy_damage_mult = 1.2
+enemy_speed_mult = 1.0
+gold_mult = 1.5
+xp_mult = 1.0
+shop_refresh_cost_increment = 15
