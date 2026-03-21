@@ -10,6 +10,9 @@ var countdown_timer: float = 0.0
 var countdown_label: Label = null
 
 func _ready() -> void:
+	# Set translated text
+	$PanelContainer/VBoxContainer/Title.text = tr("SHOP_TITLE")
+
 	EventBus.shop_opened.connect(_on_shop_opened)
 	EventBus.shop_closed.connect(_on_shop_closed)
 

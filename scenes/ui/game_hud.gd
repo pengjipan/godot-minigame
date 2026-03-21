@@ -15,6 +15,11 @@ var current_kills: int = 0
 var current_gold: int = 0
 
 func _ready() -> void:
+	# Set initial translated text
+	wave_label.text = tr("HUD_WAVE") % [1, 60]
+	coin_label.text = tr("HUD_GOLD") % 0
+	kill_label.text = tr("HUD_KILLS") % 0
+
 	# Connect to signals
 	EventBus.health_updated.connect(_on_health_updated)
 	EventBus.experience_updated.connect(_on_experience_updated)

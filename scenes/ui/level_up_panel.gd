@@ -8,6 +8,9 @@ var upgrade_buttons: Array[Button] = []
 var upgrade_labels: Array[Label] = []
 
 func _ready() -> void:
+	# Set translated text
+	$PanelContainer/VBoxContainer/Title.text = tr("LEVEL_UP_TITLE")
+
 	EventBus.upgrade_panel_opened.connect(_on_upgrade_panel_opened)
 	EventBus.upgrade_panel_closed.connect(_on_upgrade_panel_closed)
 

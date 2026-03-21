@@ -3,7 +3,12 @@ extends Control
 class_name MainMenu
 
 func _ready() -> void:
-	pass
+	# Manually set translated text
+	$CenterContainer/VBoxContainer/Title.text = tr("GAME_TITLE")
+	$CenterContainer/VBoxContainer/Subtitle.text = tr("GAME_SUBTITLE")
+	$CenterContainer/VBoxContainer/StartButton.text = tr("MENU_START")
+	$CenterContainer/VBoxContainer/SettingsButton.text = tr("MENU_SETTINGS")
+	$CenterContainer/VBoxContainer/QuitButton.text = tr("MENU_QUIT")
 
 func _on_start_pressed() -> void:
 	# Go to character select

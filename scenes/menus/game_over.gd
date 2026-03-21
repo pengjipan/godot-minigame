@@ -5,6 +5,11 @@ class_name GameOverScreen
 var stats: Dictionary = {}
 
 func _ready() -> void:
+	# Set translated text
+	$PanelContainer/VBoxContainer/Title.text = tr("GAME_OVER_TITLE")
+	$PanelContainer/VBoxContainer/RestartButton.text = tr("GAME_OVER_RETRY")
+	$PanelContainer/VBoxContainer/MainMenuButton.text = tr("GAME_OVER_MENU")
+
 	EventBus.game_over.connect(_on_game_over)
 
 func _on_game_over(run_stats: Dictionary) -> void:
