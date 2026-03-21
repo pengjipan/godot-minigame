@@ -24,10 +24,56 @@ func _load_all_weapons() -> void:
 		load("res://resources/weapons/minigun.tres")
 	]
 
+## Get localization key for weapon name
+func _get_weapon_name_key(weapon_name: String) -> String:
+	match weapon_name:
+		"9mm Handgun":
+			return "WEAPON_PISTOL_NAME"
+		"Vector SMG":
+			return "WEAPON_SMG_NAME"
+		"Pump Shotgun":
+			return "WEAPON_SHOTGUN_NAME"
+		"M4 Carbine":
+			return "WEAPON_AR_NAME"
+		"Bolt-Action Rifle":
+			return "WEAPON_SNIPER_NAME"
+		"Inferno Projector":
+			return "WEAPON_FLAMETHROWER_NAME"
+		"40mm Launcher":
+			return "WEAPON_GRENADE_NAME"
+		"Rotary Cannon":
+			return "WEAPON_MINIGUN_NAME"
+	return weapon_name  # Fallback to original
+
+## Get localization key for weapon description
+func _get_weapon_desc_key(weapon_name: String) -> String:
+	match weapon_name:
+		"9mm Handgun":
+			return "WEAPON_PISTOL_DESC"
+		"Vector SMG":
+			return "WEAPON_SMG_DESC"
+		"Pump Shotgun":
+			return "WEAPON_SHOTGUN_DESC"
+		"M4 Carbine":
+			return "WEAPON_AR_DESC"
+		"Bolt-Action Rifle":
+			return "WEAPON_SNIPER_DESC"
+		"Inferno Projector":
+			return "WEAPON_FLAMETHROWER_DESC"
+		"40mm Launcher":
+			return "WEAPON_GRENADE_DESC"
+		"Rotary Cannon":
+			return "WEAPON_MINIGUN_DESC"
+	return ""  # No description key
+
+## Get localized tag name
+func _get_tag_name(tag: String) -> String:
+	return tr("TAG_" + tag)
+
 ## Show weapon selection for given character
 func show_for_character(char_data: CharacterData) -> void:
 	character_data = char_data
-	character_label.text = "Choose Starting Weapon for %s" % char_data.character_name
+	character_label.text = tr("WEAPON_SELECT_TITLE")
 
 	# Calculate recommendations
 	recommended_weapons = _get_recommended_weapons(char_data)
@@ -81,16 +127,29 @@ func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 	# Add recommended indicator
 	if is_recommended:
 		var star_label = Label.new()
-		star_label.text = "⭐ RECOMMENDED"
+		star_label.text = tr("WEAPON_SELECT_RECOMMENDED")
 		card.add_child(star_label)
 
-	# Weapon name
+	# Weapon name (localized)
 	var name_label = Label.new()
-	name_label.text = weapon_data.weapon_name
+	name_label.text = tr(_get_weapon_name_key(weapon_data.weapon_name))
 	card.add_child(name_label)
 
-	# Tags
+	# Weapon description (localized)
+	var desc_key = _get_weapon_desc_key(weapon_data.weapon_name)
+	if desc_key != "":
+		var desc_label = Label.new()
+		desc_label.text = tr(desc_key)
+		desc_label.add_theme_font_size_override("font_size", 12)
+		card.add_child(desc_label)
+
+	# Tags (localized)
 	var tags_label = Label.new()
+	var localized_tags = []
+	for tag in weapon_data.weapon_tags:
+		localized_tags.append(_get_tag_name(tag))
+	tags_label.text = " | ".join(localized_tags)
+	card.add_child(tags_label)
 	tags_label.text = " ".join(weapon_data.weapon_tags)
 	card.add_child(tags_label)
 
@@ -109,7 +168,7 @@ func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 
 	# Select button
 	var button = Button.new()
-	button.text = "SELECT"
+	button.text = tr("WEAPON_SELECT_SELECT")
 	button.pressed.connect(_on_weapon_selected.bind(weapon_data))
 	card.add_child(button)
 
@@ -123,11 +182,12 @@ func _get_class_bonus_text(weapon_data: WeaponData) -> String:
 	for tag in weapon_data.weapon_tags:
 		var bonus = character_data.tag_bonuses.get(tag, 0.0)
 		var penalty = character_data.tag_penalties.get(tag, 0.0)
+		var tag_name = _get_tag_name(tag)
 
 		if bonus > 0.0:
-			bonus_texts.append("💡 +%.0f%% for %s" % [bonus * 100, tag])
+			bonus_texts.append("💡 " + tr("WEAPON_BONUS_FOR") % [bonus * 100, tag_name])
 		elif penalty < 0.0:
-			bonus_texts.append("⚠️ %.0f%% for %s" % [penalty * 100, tag])
+			bonus_texts.append("⚠️ " + tr("WEAPON_PENALTY_FOR") % [penalty * 100, tag_name])
 
 	return "\n".join(bonus_texts)
 
@@ -137,7 +197,7 @@ func _on_weapon_selected(weapon_data: WeaponData) -> void:
 	# Store in GameManager
 	GameManager.selected_starting_weapon = weapon_data
 
-	# Transition to game
-	GameManager.set_state(GameManager.GameState.PLAYING)
+	# Load game world scene
+	get_tree().change_scene_to_file("res://scenes/game/game_world.tscn")
 
 	hide()

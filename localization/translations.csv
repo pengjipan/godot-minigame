@@ -4,6 +4,11 @@ GAME_SUBTITLE,Roguelike Survival Shooter,Roguelike 生存射击游戏
 MENU_START,START GAME,开始游戏
 MENU_SETTINGS,SETTINGS,游戏设置
 MENU_QUIT,QUIT,退出游戏
+SETTINGS_TITLE,SETTINGS,游戏设置
+SETTINGS_LANGUAGE,Language,语言
+SETTINGS_CHINESE,中文,中文
+SETTINGS_ENGLISH,English,English
+SETTINGS_BACK,BACK,返回
 CHAR_SELECT_TITLE,SELECT CHARACTER,选择角色
 CHAR_BACK,BACK,返回
 CHAR_POTATO_NAME,Potato Warrior,土豆战士
@@ -12,6 +17,34 @@ CHAR_TANK_NAME,Heavy Tank,重装坦克
 CHAR_TANK_DESC,High health slow movement. Can take a beating!,高血量，移动慢，能抗能打
 CHAR_SPEEDY_NAME,Speedy,闪电侠
 CHAR_SPEEDY_DESC,Fast movement low health. Hit and run tactics!,移速快，血量低，游走战术
+WEAPON_SELECT_TITLE,Choose Your Starting Weapon,选择你的起始武器
+WEAPON_SELECT_RECOMMENDED,⭐ RECOMMENDED,⭐ 推荐
+WEAPON_SELECT_SELECT,SELECT,选择
+WEAPON_PISTOL_NAME,9mm Handgun,9mm手枪
+WEAPON_PISTOL_DESC,Reliable starter weapon,可靠的起始武器
+WEAPON_SMG_NAME,Vector SMG,维克托冲锋枪
+WEAPON_SMG_DESC,High fire rate spray weapon,高射速扫射武器
+WEAPON_SHOTGUN_NAME,Pump Shotgun,泵动霰弹枪
+WEAPON_SHOTGUN_DESC,Close-range crowd control,近距离群体控制
+WEAPON_AR_NAME,M4 Carbine,M4卡宾枪
+WEAPON_AR_DESC,Versatile all-rounder,全能型突击步枪
+WEAPON_SNIPER_NAME,Bolt-Action Rifle,栓动狙击步枪
+WEAPON_SNIPER_DESC,Long-range high-damage elimination,远程高伤消灭
+WEAPON_FLAMETHROWER_NAME,Inferno Projector,地狱火焰喷射器
+WEAPON_FLAMETHROWER_DESC,Continuous close-range area denial,持续近距离区域压制
+WEAPON_GRENADE_NAME,40mm Launcher,40mm榴弹发射器
+WEAPON_GRENADE_DESC,Explosive AoE damage,爆炸范围伤害
+WEAPON_MINIGUN_NAME,Rotary Cannon,旋转机炮
+WEAPON_MINIGUN_DESC,Sustained high fire rate,持续高射速
+TAG_RAPID_FIRE,Rapid Fire,速射
+TAG_PRECISION,Precision,精准
+TAG_AREA,Area,范围
+TAG_HEAVY,Heavy,重型
+TAG_BURST,Burst,连发
+TAG_SUSTAINED,Sustained,持续
+TAG_PIERCING,Piercing,穿透
+WEAPON_BONUS_FOR,+%.0f%% for %s,对%s +%.0f%%
+WEAPON_PENALTY_FOR,%.0f%% for %s,对%s %.0f%%
 GAME_OVER_TITLE,GAME OVER,游戏结束
 GAME_OVER_STATS,Stats...,游戏统计数据...
 GAME_OVER_RETRY,TRY AGAIN,再来一局
