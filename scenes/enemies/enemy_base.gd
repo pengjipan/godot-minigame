@@ -146,3 +146,6 @@ func _drop_rewards() -> void:
 		get_parent().add_child(coin)
 		coin.global_position = global_position
 		coin.set_value(gold_reward)
+
+	# Drop XP
+	ExperienceManager.gain_xp(1)
