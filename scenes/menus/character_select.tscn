@@ -3,15 +3,15 @@
 [ext_resource type="Script" path="res://scenes/menus/character_select.gd"]
 
 [node name="CharacterSelect" type="Control"]
-anchors_right = 1.0
-anchors_bottom = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource("res://scenes/menus/character_select.gd")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_left = 0.5
-anchors_top = 0.5
-anchors_right = 0.5
-anchors_bottom = 0.5
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -200.0
 offset_top = -300.0
 offset_right = 200.0

@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scenes/ui/virtual_joystick.gd"]
 
 [node name="VirtualJoystick" type="Control"]
-anchors_left = 0.0
-anchors_top = 1.0
-anchors_right = 0.2
-anchors_bottom = 1.0
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.2
+anchor_bottom = 1.0
 offset_left = 10.0
 offset_top = -110.0
 offset_right = -10.0

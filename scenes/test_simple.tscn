@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://test_simple"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 400.0
+offset_top = 300.0
+offset_right = 600.0
+offset_bottom = 400.0
+text = "Test Scene - If you see this, scenes work!
+Press ESC to exit"

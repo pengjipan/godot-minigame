@@ -29,12 +29,12 @@ func play_music(audio_path: String, fade_in: float = 0.0) -> void:
 	var audio = load(audio_path) as AudioStream
 	if audio:
 		music_player.stream = audio
-		music_player.volume_db = linear2db(music_volume * master_volume)
+		music_player.volume_db = linear_to_db(music_volume * master_volume)
 		music_player.play()
 		if fade_in > 0:
 			var tween = create_tween()
 			tween.tween_property(music_player, "volume_db",
-				linear2db(music_volume * master_volume), fade_in)
+				linear_to_db(music_volume * master_volume), fade_in)
 
 ## Stop background music
 func stop_music(fade_out: float = 0.0) -> void:
@@ -58,7 +58,7 @@ func play_sfx(audio_path: String, volume: float = 1.0) -> void:
 		for player in sfx_players:
 			if not player.playing:
 				player.stream = audio
-				player.volume_db = linear2db(volume * sfx_volume * master_volume)
+				player.volume_db = linear_to_db(volume * sfx_volume * master_volume)
 				player.play()
 				return
 		push_warning("All SFX players are busy")
@@ -67,21 +67,21 @@ func play_sfx(audio_path: String, volume: float = 1.0) -> void:
 func set_master_volume(volume: float) -> void:
 	master_volume = clamp(volume, 0.0, 1.0)
 	if music_player:
-		music_player.volume_db = linear2db(music_volume * master_volume)
+		music_player.volume_db = linear_to_db(music_volume * master_volume)
 	for player in sfx_players:
-		player.volume_db = linear2db(sfx_volume * master_volume)
+		player.volume_db = linear_to_db(sfx_volume * master_volume)
 
 ## Set music volume (0.0 to 1.0)
 func set_music_volume(volume: float) -> void:
 	music_volume = clamp(volume, 0.0, 1.0)
 	if music_player:
-		music_player.volume_db = linear2db(music_volume * master_volume)
+		music_player.volume_db = linear_to_db(music_volume * master_volume)
 
 ## Set SFX volume (0.0 to 1.0)
 func set_sfx_volume(volume: float) -> void:
 	sfx_volume = clamp(volume, 0.0, 1.0)
 	for player in sfx_players:
-		player.volume_db = linear2db(sfx_volume * master_volume)
+		player.volume_db = linear_to_db(sfx_volume * master_volume)
 
 ## Get master volume
 func get_master_volume() -> float:
