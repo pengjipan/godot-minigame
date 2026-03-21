@@ -77,6 +77,8 @@ func _ready() -> void:
 			current_ammo = magazine_size
 
 		# Handle sustained weapons (no reload)
+		# Sustained weapons (Flamethrower, Minigun) use magazine_size = INFINITE_AMMO
+		# This skips reload logic and allows continuous fire
 		if "is_sustained" in weapon_data and weapon_data.is_sustained:
 			magazine_size = INFINITE_AMMO
 			current_ammo = DISPLAY_INFINITE_AMMO  # Large number for display/UI purposes
