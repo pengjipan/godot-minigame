@@ -1,0 +1,178 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpkm3v8r7wq4b"]
+
+[ext_resource type="Script" path="res://scenes/ui/stat_upgrade_screen.gd" id="1"]
+
+[node name="StatUpgradeScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="BackgroundOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(800, 500)
+
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/MainVBox"]
+layout_mode = 2
+text = "LEVEL UP - Choose a Stat Upgrade"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+
+[node name="Spacer1" type="Control" parent="CenterContainer/PanelContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="OptionsHBox" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Option1Container" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Option1Panel" type="PanelContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container/Option1Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Option1Rarity" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container/Option1Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="Option1Name" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container/Option1Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stat Name"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+
+[node name="Option1Value" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container/Option1Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+8%"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="Option1Button" type="Button" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option1Container"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SELECT"
+theme_override_font_sizes/font_size = 18
+
+[node name="Option2Container" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Option2Panel" type="PanelContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container/Option2Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Option2Rarity" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container/Option2Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="Option2Name" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container/Option2Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stat Name"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+
+[node name="Option2Value" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container/Option2Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+8%"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="Option2Button" type="Button" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option2Container"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SELECT"
+theme_override_font_sizes/font_size = 18
+
+[node name="Option3Container" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Option3Panel" type="PanelContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container/Option3Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Option3Rarity" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container/Option3Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="Option3Name" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container/Option3Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stat Name"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+
+[node name="Option3Value" type="Label" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container/Option3Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+8%"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="Option3Button" type="Button" parent="CenterContainer/PanelContainer/MainVBox/OptionsHBox/Option3Container"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SELECT"
+theme_override_font_sizes/font_size = 18

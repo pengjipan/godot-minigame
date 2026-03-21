@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwt4ofc5j"]
+[gd_scene load_steps=5 format=3 uid="uid://dwt4ofc5j"]
 
 [ext_resource type="Script" path="res://scenes/game/game_world.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d2aaxyc2c63qb" path="res://scenes/player/player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://b4qlqeut8" path="res://scenes/ui/game_hud.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dpkm3v8r7wq4b" path="res://scenes/ui/stat_upgrade_screen.tscn" id="4"]
 
 [node name="GameWorld" type="Node2D"]
 script = ExtResource("1")
@@ -16,3 +17,5 @@ color = Color(0.2, 0.2, 0.2, 1)
 position = Vector2(540, 960)
 
 [node name="GameHUD" parent="." instance=ExtResource("3")]
+
+[node name="StatUpgradeScreen" parent="." instance=ExtResource("4")]
