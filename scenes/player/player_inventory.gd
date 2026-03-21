@@ -33,10 +33,10 @@ func set_aim_direction(direction: Vector2) -> void:
 			weapon.set_aim_direction(aim_direction)
 
 ## Fire all weapons
-func fire() -> void:
+func fire(origin_position: Vector2) -> void:
 	for weapon in weapons:
 		if weapon.has_method("fire"):
-			weapon.fire(global_position, aim_direction)
+			weapon.fire(origin_position, aim_direction)
 
 ## Get weapon in slot
 func get_weapon(slot: int) -> Node:
