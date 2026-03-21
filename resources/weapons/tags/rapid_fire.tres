@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TagData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/weapons/tag_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+tag_name = "RAPID_FIRE"
+display_name = "Rapid Fire"
+description = "High rate of fire"
+icon_path = ""
+damage_bonus_per_tag = 0.0
+fire_rate_bonus_per_tag = 0.08
+reload_speed_bonus_per_tag = 0.0
+projectile_count_bonus_per_tag = 0.0
+pierce_bonus_per_tag = 0.0
+knockback_bonus_per_tag = 0.0
