@@ -123,16 +123,19 @@ func _display_weapons() -> void:
 
 func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 	var card = VBoxContainer.new()
+	card.custom_minimum_size = Vector2(450, 300)
 
 	# Add recommended indicator
 	if is_recommended:
 		var star_label = Label.new()
 		star_label.text = tr("WEAPON_SELECT_RECOMMENDED")
+		star_label.add_theme_font_size_override("font_size", 28)
 		card.add_child(star_label)
 
 	# Weapon name (localized)
 	var name_label = Label.new()
 	name_label.text = tr(_get_weapon_name_key(weapon_data.weapon_name))
+	name_label.add_theme_font_size_override("font_size", 32)
 	card.add_child(name_label)
 
 	# Weapon description (localized)
@@ -140,7 +143,8 @@ func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 	if desc_key != "":
 		var desc_label = Label.new()
 		desc_label.text = tr(desc_key)
-		desc_label.add_theme_font_size_override("font_size", 12)
+		desc_label.add_theme_font_size_override("font_size", 20)
+		desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		card.add_child(desc_label)
 
 	# Tags (localized)
@@ -149,13 +153,13 @@ func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 	for tag in weapon_data.weapon_tags:
 		localized_tags.append(_get_tag_name(tag))
 	tags_label.text = " | ".join(localized_tags)
-	card.add_child(tags_label)
-	tags_label.text = " ".join(weapon_data.weapon_tags)
+	tags_label.add_theme_font_size_override("font_size", 22)
 	card.add_child(tags_label)
 
 	# Stats
 	var stats_label = Label.new()
 	stats_label.text = "DMG: %d  Fire Rate: %.1f/s" % [weapon_data.damage, weapon_data.fire_rate]
+	stats_label.add_theme_font_size_override("font_size", 24)
 	card.add_child(stats_label)
 
 	# Show class bonus/penalty
@@ -164,11 +168,14 @@ func _create_weapon_card(weapon_data: WeaponData, is_recommended: bool) -> void:
 		if bonus_text != "":
 			var bonus_label = Label.new()
 			bonus_label.text = bonus_text
+			bonus_label.add_theme_font_size_override("font_size", 20)
 			card.add_child(bonus_label)
 
 	# Select button
 	var button = Button.new()
 	button.text = tr("WEAPON_SELECT_SELECT")
+	button.custom_minimum_size = Vector2(0, 80)
+	button.add_theme_font_size_override("font_size", 28)
 	button.pressed.connect(_on_weapon_selected.bind(weapon_data))
 	card.add_child(button)
 
