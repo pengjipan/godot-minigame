@@ -15,13 +15,16 @@ var experience_reward: int = 10
 var gold_reward: int = 5
 
 func _ready() -> void:
-	print("[Enemy] Spawning enemy at ", global_position)
+	print("[Enemy] ========== ENEMY SPAWN START ==========")
+	print("[Enemy] Position: ", global_position)
 	add_to_group("enemies")
 
 	# Get components
 	health_component = $HealthComponent
 	hurtbox_component = $HurtboxComponent
 	hitbox_component = $HitboxComponent
+
+	print("[Enemy] Components found: Health=", health_component != null, " Hurtbox=", hurtbox_component != null, " Hitbox=", hitbox_component != null)
 
 	# Use default values for now
 	move_speed = 100.0
@@ -34,28 +37,38 @@ func _ready() -> void:
 		health_component.max_health = 20
 		health_component.reset()
 		health_component.health_depleted.connect(_on_death)
-		print("[Enemy] Health component initialized")
-	else:
-		push_error("[Enemy] HealthComponent not found!")
 
 	if hitbox_component:
 		hitbox_component.set_damage(damage)
 
-	# Verify hurtbox collision shape
-	if hurtbox_component and hurtbox_component.has_node("HurtboxCollisionShape"):
-		var shape_node = hurtbox_component.get_node("HurtboxCollisionShape")
-		print("[Enemy] Hurtbox collision shape exists, disabled=", shape_node.disabled)
-		if shape_node.shape:
-			print("[Enemy] Hurtbox shape: ", shape_node.shape.get_class())
+	# IMPORTANT: Check hurtbox setup
+	if hurtbox_component:
+		print("[Enemy] Hurtbox properties:")
+		print("[Enemy]   Layer: ", hurtbox_component.collision_layer)
+		print("[Enemy]   Mask: ", hurtbox_component.collision_mask)
+		print("[Enemy]   Monitoring: ", hurtbox_component.monitoring)
+		print("[Enemy]   Monitorable: ", hurtbox_component.monitorable)
+
+		if hurtbox_component.has_node("HurtboxCollisionShape"):
+			var shape_node = hurtbox_component.get_node("HurtboxCollisionShape")
+			print("[Enemy]   CollisionShape found!")
+			print("[Enemy]     Disabled: ", shape_node.disabled)
+			if shape_node.shape:
+				print("[Enemy]     Shape: ", shape_node.shape.get_class())
+				if shape_node.shape is CircleShape2D:
+					print("[Enemy]     Radius: ", shape_node.shape.radius)
+			else:
+				print("[Enemy]     ERROR: No shape!")
 		else:
-			print("[Enemy] WARNING: Hurtbox has no shape!")
+			print("[Enemy]   ERROR: No HurtboxCollisionShape node!")
 	else:
-		print("[Enemy] WARNING: No hurtbox collision shape!")
+		print("[Enemy] ERROR: No hurtbox component!")
 
 	# Set up simple AI
 	_setup_simple_ai()
 
-	print("[Enemy] Enemy ready at ", global_position, ", health: ", health_component.current_health if health_component else "N/A")
+	print("[Enemy] Health: ", health_component.current_health if health_component else "N/A")
+	print("[Enemy] ========== ENEMY SPAWN END ===========")
 
 ## Set up simple AI that chases player
 func _setup_simple_ai() -> void:
