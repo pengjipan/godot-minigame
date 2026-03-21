@@ -45,6 +45,17 @@ func _ready() -> void:
 
 	print("[GameWorld] Systems created. Starting game...")
 
+	# Initialize with selected starting weapon
+	if GameManager.selected_starting_weapon:
+		if player and player.has_node("PlayerInventory"):
+			var inventory = player.get_node("PlayerInventory")
+			if inventory.has_method("add_weapon_from_data"):
+				inventory.add_weapon_from_data(GameManager.selected_starting_weapon)
+				print("[GameWorld] Started with weapon: %s" % GameManager.selected_starting_weapon.weapon_name)
+
+		# Clear selection for next run
+		GameManager.selected_starting_weapon = null
+
 	# Start game
 	GameManager.set_state(GameManager.GameState.PLAYING)
 	GameManager.is_game_running = true
