@@ -62,3 +62,8 @@ text = "Item 3 - 200💰"
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 text = "Item 4 - 250💰"
+
+[node name="RefreshButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+text = "Refresh (Free)"

@@ -5,6 +5,8 @@ class_name ShopPanel
 @export var shop_system: ShopSystem = null
 @export var countdown_duration: float = 30.0
 
+@onready var refresh_button: Button = $PanelContainer/VBoxContainer/RefreshButton
+
 var shop_buttons: Array[Button] = []
 var countdown_timer: float = 0.0
 var countdown_label: Label = null
@@ -15,6 +17,10 @@ func _ready() -> void:
 
 	EventBus.shop_opened.connect(_on_shop_opened)
 	EventBus.shop_closed.connect(_on_shop_closed)
+
+	# Connect refresh button
+	if refresh_button:
+		refresh_button.pressed.connect(_on_refresh_pressed)
 
 	# Create shop buttons
 	for i in range(6):
@@ -39,6 +45,10 @@ func _on_shop_opened() -> void:
 		shop_system = get_tree().root.get_node_or_null("ShopSystem")
 
 	# Display shop items
+	_update_shop_display()
+	_update_refresh_button()
+
+func _update_shop_display() -> void:
 	if shop_system:
 		var items = shop_system.get_shop_items()
 		for i in range(shop_buttons.size()):
@@ -73,3 +83,35 @@ func _close_shop() -> void:
 	visible = false
 	EventBus.shop_closed.emit()
 	GameManager.set_state(GameManager.GameState.PLAYING)
+
+func _on_refresh_pressed() -> void:
+	var shop = get_node_or_null("/root/ShopSystem")
+	if not shop:
+		return
+
+	# Get player inventory
+	var player = get_tree().get_first_node_in_group("player")
+	var owned_weapons = []
+	if player and player.has_node("Inventory"):
+		var inventory = player.get_node("Inventory")
+		if inventory.has("weapon_data_list"):
+			owned_weapons = inventory.weapon_data_list
+
+	# Purchase refresh
+	if shop.purchase_refresh(owned_weapons):
+		_update_shop_display()
+		_update_refresh_button()
+
+func _update_refresh_button() -> void:
+	if not refresh_button:
+		return
+
+	var shop = get_node_or_null("/root/ShopSystem")
+	if not shop:
+		return
+
+	var cost = shop.get_refresh_cost()
+	if cost == 0:
+		refresh_button.text = "Refresh (Free)"
+	else:
+		refresh_button.text = "Refresh (%d gold)" % cost
