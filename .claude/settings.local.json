@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh-keygen:*)",
+      "Bash(claude plugin:*)",
+      "Bash(cd D:\\\\Work\\\\VibeGameing\\\\mini-game:*)",
+      "Bash(cd D:\\\\Work\\\\VibeGameing\\\\mini-game:*、)"
+    ]
+  }
+}
