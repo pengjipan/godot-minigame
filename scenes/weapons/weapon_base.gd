@@ -3,6 +3,7 @@ extends Node2D
 class_name Weapon
 
 const INFINITE_AMMO: int = -1
+const DISPLAY_INFINITE_AMMO: int = 999  # Large number for UI display
 
 @export var damage: int = 10
 @export var fire_rate: float = 1.0  # shots per second (1秒1发)
@@ -74,7 +75,7 @@ func _ready() -> void:
 		# Handle sustained weapons (no reload)
 		if "is_sustained" in weapon_data and weapon_data.is_sustained:
 			magazine_size = INFINITE_AMMO
-			current_ammo = 999  # Large number for display/UI purposes
+			current_ammo = DISPLAY_INFINITE_AMMO  # Large number for display/UI purposes
 
 	print("[Weapon] Fire rate: ", fire_rate, " cooldown: ", fire_cooldown)
 	print("[Weapon] Magazine: ", magazine_size, " Reload time: ", reload_time, "s")
