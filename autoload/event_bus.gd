@@ -9,6 +9,9 @@ signal player_died
 signal player_leveled_up(new_level: int)
 signal player_experience_gained(amount: int)
 signal stat_upgraded(stat_name: String, new_value: float)
+signal xp_gained(current_xp: int, xp_required: int)
+signal level_up(new_level: int)
+signal stat_upgrade_selected(stat_type: String, value: float)
 
 # Enemy events
 signal enemy_spawned(enemy: Node)
@@ -17,7 +20,11 @@ signal enemy_damaged(enemy: Node, damage: int)
 
 # Weapon events
 signal weapon_fired(weapon: Node, position: Vector2)
+signal weapon_reloaded()
 signal projectile_hit(projectile: Node, target: Node)
+signal weapon_purchased(weapon_data)
+signal synergy_updated(tag_counts: Dictionary, synergies: Dictionary)
+signal inventory_full
 
 # Item events
 signal coin_collected(amount: int)
