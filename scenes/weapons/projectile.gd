@@ -52,12 +52,11 @@ func _process(delta: float) -> void:
 		print("[Projectile] Alive! Position: ", global_position, " Direction: ", direction, " Speed: ", speed)
 		print("[Projectile]   Movement: ", old_pos, " -> ", global_position, " (delta: ", global_position - old_pos, ")")
 
-	# Destroy if off screen
-	var viewport_rect = get_viewport_rect()
-	if global_position.x < -100 or global_position.x > viewport_rect.size.x + 100 or \
-	   global_position.y < -100 or global_position.y > viewport_rect.size.y + 100:
+	# Destroy if off screen - use world bounds, not viewport
+	# World is 1080x1920 for portrait mode
+	if global_position.x < -200 or global_position.x > 1280 or \
+	   global_position.y < -200 or global_position.y > 2120:
 		print("[Projectile] *** OFF SCREEN, destroying at ", global_position)
-		print("[Projectile]   Viewport size: ", viewport_rect.size)
 		queue_free()
 
 ## Initialize projectile
