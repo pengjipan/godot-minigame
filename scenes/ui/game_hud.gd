@@ -5,6 +5,7 @@ class_name GameHUD
 @onready var health_bar: ProgressBar = $MarginContainer/TopBar/HealthBar
 @onready var experience_bar: ProgressBar = $MarginContainer/TopBar/ExperienceBar
 @onready var wave_label: Label = $MarginContainer/TopBar/WaveLabel
+@onready var level_label: Label = $MarginContainer/TopBar/LevelLabel
 @onready var coin_label: Label = $MarginContainer/BottomBar/CoinLabel
 @onready var kill_label: Label = $MarginContainer/BottomBar/KillLabel
 @onready var virtual_joystick: VirtualJoystick = $MarginContainer/VirtualJoystick
@@ -27,8 +28,15 @@ func _ready() -> void:
 	EventBus.coin_collected.connect(_on_coin_collected)
 	EventBus.enemy_died.connect(_on_enemy_died)
 
+	# Connect to XP signals from ExperienceManager
+	EventBus.xp_gained.connect(_on_xp_gained)
+	EventBus.level_up.connect(_on_level_up)
+
 	# Connect joystick to player
 	virtual_joystick.input_changed.connect(_on_joystick_input)
+
+	# Initialize XP display
+	_update_xp_display()
 
 func _on_health_updated(current: int, max_val: int) -> void:
 	if health_bar:
@@ -64,3 +72,17 @@ func _on_joystick_input(input_vector: Vector2) -> void:
 
 	if player and player.has_method("set_joystick_input"):
 		player.set_joystick_input(input_vector)
+
+func _on_xp_gained(current_xp: int, xp_required: int) -> void:
+	_update_xp_display()
+
+func _on_level_up(new_level: int) -> void:
+	_update_xp_display()
+
+func _update_xp_display() -> void:
+	if experience_bar:
+		experience_bar.max_value = ExperienceManager.xp_required
+		experience_bar.value = ExperienceManager.current_xp
+
+	if level_label:
+		level_label.text = "Level %d" % ExperienceManager.current_level

@@ -27,6 +27,11 @@ layout_mode = 2
 text = "HUD_WAVE"
 theme_override_font_sizes/font_size = 24
 
+[node name="LevelLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "Level 1"
+theme_override_font_sizes/font_size = 20
+
 [node name="HealthBar" type="ProgressBar" parent="MarginContainer/TopBar"]
 layout_mode = 2
 max_value = 100.0
