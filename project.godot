@@ -17,7 +17,7 @@ run/main_scene="res://scenes/menus/main_menu.tscn"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://localization/translations.csv")
+locale/translations=PackedStringArray("res://localization/translations.en.translation", "res://localization/translations.zh_CN.translation")
 locale/locale_filter_mode=0
 
 [autoload]

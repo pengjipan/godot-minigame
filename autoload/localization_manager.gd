@@ -4,21 +4,29 @@ extends Node
 func _ready() -> void:
 	# Get system locale
 	var system_locale = OS.get_locale()
-	print("System locale detected: ", system_locale)
+	print("[LocalizationManager] System locale detected: ", system_locale)
+
+	# Print available translations
+	var translations = TranslationServer.get_loaded_locales()
+	print("[LocalizationManager] Available translations: ", translations)
 
 	# Set default language based on system locale
+	var target_locale = "en"
 	if system_locale.begins_with("zh"):
 		# Chinese language variants (zh_CN, zh_TW, zh_HK, etc.)
-		TranslationServer.set_locale("zh_CN")
-	else:
-		# Default to English
-		TranslationServer.set_locale("en")
+		target_locale = "zh_CN"
 
-	print("Game language set to: ", TranslationServer.get_locale())
+	TranslationServer.set_locale(target_locale)
+	print("[LocalizationManager] Game language set to: ", TranslationServer.get_locale())
+
+	# Test translation
+	var test = tr("GAME_TITLE")
+	print("[LocalizationManager] Test translation of 'GAME_TITLE': ", test)
 
 ## Change language manually
 func set_language(locale: String) -> void:
 	TranslationServer.set_locale(locale)
+	print("[LocalizationManager] Language changed to: ", locale)
 	# Save preference
 	SaveManager.save_setting("language", locale)
 
