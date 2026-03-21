@@ -32,8 +32,20 @@ func _ready() -> void:
 
 func _on_character_selected(character: CharacterData) -> void:
 	selected_character = character
-	GameManager.start_new_run(character.get_stats())
-	get_tree().change_scene_to_file("res://scenes/game/game_world.tscn")
+
+	# Store character in GameManager
+	GameManager.selected_character = character
+
+	# Go to weapon selection
+	GameManager.set_state(GameManager.GameState.INITIAL_WEAPON_SELECT)
+
+	# Load weapon selection screen
+	var weapon_screen = load("res://scenes/ui/starting_weapon_screen.tscn").instantiate()
+	get_tree().root.add_child(weapon_screen)
+	weapon_screen.show_for_character(character)
+
+	# Hide character select
+	hide()
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
