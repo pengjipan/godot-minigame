@@ -36,6 +36,8 @@ max_health = 20
 [node name="HurtboxComponent" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 8
+monitoring = true
+monitorable = true
 script = ExtResource("3")
 
 [node name="HurtboxCollisionShape" type="CollisionShape2D" parent="HurtboxComponent"]
@@ -44,6 +46,8 @@ shape = SubResource("CircleShape2D_2")
 [node name="HitboxComponent" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 32
+monitoring = true
+monitorable = true
 script = ExtResource("4")
 damage = 5
 
