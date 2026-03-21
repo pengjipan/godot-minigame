@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4qlqeut8"]
+
+[ext_resource type="Script" path="res://scenes/ui/game_hud.gd"]
+[ext_resource type="Script" path="res://scenes/ui/virtual_joystick.gd"]
+
+[node name="GameHUD" type="CanvasLayer"]
+script = ExtResource("res://scenes/ui/game_hud.gd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_right = 1.0
+anchors_bottom = 1.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TopBar" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="WaveLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "Wave 1 | 60s"
+theme_override_font_sizes/font_size = 24
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/TopBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 100.0
+value = 100.0
+
+[node name="ExperienceBar" type="ProgressBar" parent="MarginContainer/TopBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 100.0
+modulate = Color(0, 1, 0, 1)
+
+[node name="BottomBar" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CoinLabel" type="Label" parent="MarginContainer/BottomBar"]
+layout_mode = 2
+text = "💰 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="KillLabel" type="Label" parent="MarginContainer/BottomBar"]
+layout_mode = 2
+text = "☠ 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="VirtualJoystick" type="Control" parent="MarginContainer"]
+layout_mode = 2
+script = ExtResource("res://scenes/ui/virtual_joystick.gd")

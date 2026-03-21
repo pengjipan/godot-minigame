@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2opzppsx"]
+
+[ext_resource type="Script" path="res://scenes/menus/character_select.gd"]
+
+[node name="CharacterSelect" type="Control"]
+anchors_right = 1.0
+anchors_bottom = 1.0
+script = ExtResource("res://scenes/menus/character_select.gd")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_left = 0.5
+anchors_top = 0.5
+anchors_right = 0.5
+anchors_bottom = 0.5
+offset_left = -200.0
+offset_top = -300.0
+offset_right = 200.0
+offset_bottom = 300.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 600)
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "SELECT CHARACTER"
+theme_override_font_sizes/font_size = 32
+alignment = 1
+
+[node name="Separator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+text = "BACK"
+theme_override_font_sizes/font_size = 24

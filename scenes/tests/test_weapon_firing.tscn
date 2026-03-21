@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd8ygvqd1"]
+
+[ext_resource type="PackedScene" uid="uid://d2aaxyc2c63qb" path="res://scenes/player/player.tscn"]
+[ext_resource type="PackedScene" uid="uid://c6t4v8h8h" path="res://scenes/weapons/weapon_base.tscn"]
+[ext_resource type="Script" path="res://scenes/tests/test_weapon_firing.gd"]
+
+[node name="TestWeaponFiring" type="Node2D"]
+script = ExtResource("res://scenes/tests/test_weapon_firing.gd")
+
+[node name="Player" parent="." instance=ExtResource("res://scenes/player/player.tscn")]
+position = Vector2(540, 960)
+
+[node name="Weapon" parent="." instance=ExtResource("res://scenes/weapons/weapon_base.tscn")]
+
+[node name="Label" type="Label" parent="."]
+text = "Test: Weapon Firing
+- Yellow projectiles should fire continuously to the right
+- Projectiles should move and disappear off screen"
+theme_override_font_sizes/font_size = 20

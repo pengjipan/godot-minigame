@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8vdpqmq3"]
+
+[ext_resource type="PackedScene" uid="uid://d2aaxyc2c63qb" path="res://scenes/player/player.tscn"]
+[ext_resource type="PackedScene" uid="uid://c8t3d26i7wbl" path="res://scenes/enemies/enemy_base.tscn"]
+
+[node name="TestEnemySpawn" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("res://scenes/player/player.tscn")]
+position = Vector2(540, 960)
+
+[node name="TestEnemy" parent="." instance=ExtResource("res://scenes/enemies/enemy_base.tscn")]
+position = Vector2(400, 800)
+
+[node name="Label" type="Label" parent="."]
+text = "Test: Enemy Spawning
+- Enemy should move toward player
+- Enemy should be green
+- Player is red"
+theme_override_font_sizes/font_size = 20

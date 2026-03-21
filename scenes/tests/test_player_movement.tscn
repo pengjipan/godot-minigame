@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfkb8n3g0"]
+
+[ext_resource type="PackedScene" uid="uid://d2aaxyc2c63qb" path="res://scenes/player/player.tscn"]
+
+[node name="TestPlayerMovement" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("res://scenes/player/player.tscn")]
+position = Vector2(540, 960)
+
+[node name="Label" type="Label" parent="."]
+text = "Test: Player Movement
+- Touch and drag to move
+- Camera should follow
+- Should be able to move in all directions"
+theme_override_font_sizes/font_size = 20
