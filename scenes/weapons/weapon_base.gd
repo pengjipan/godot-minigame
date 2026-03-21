@@ -89,7 +89,7 @@ func apply_synergies(synergies: Dictionary) -> void:
 
 	# Apply additive bonuses
 	pierce_count = base_pierce_count + synergies.get("pierce_bonus", 0)
-	projectile_count = base_projectile_count + synergies.get("projectile_count_bonus", 0)
+	projectile_count = base_projectile_count + int(base_projectile_count * synergies.get("projectile_count_bonus", 0.0))
 	knockback = base_knockback * synergies.get("knockback_mult", 1.0)
 
 	# Update fire cooldown
