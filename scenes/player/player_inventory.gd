@@ -54,7 +54,7 @@ func add_weapon_from_data(weapon_data: WeaponData) -> bool:
 		return false
 
 	# Assign weapon_data
-	if weapon.has("weapon_data"):
+	if "weapon_data" in weapon:
 		weapon.weapon_data = weapon_data
 
 	add_child(weapon)
@@ -72,7 +72,7 @@ func add_weapon_from_data(weapon_data: WeaponData) -> bool:
 func recalculate_synergies() -> void:
 	# Get player's character data
 	var player = get_parent()
-	if not player or not player.has("character_data") or player.character_data == null:
+	if not player or not "character_data" in player or player.character_data == null:
 		print("[PlayerInventory] No character data, skipping synergies")
 		return
 

@@ -19,7 +19,7 @@ func count_tags(weapons: Array) -> Dictionary:
 	for weapon_data in weapons:
 		if weapon_data == null:
 			continue
-		if not weapon_data.has("weapon_tags"):
+		if not "weapon_tags" in weapon_data:
 			continue
 		for tag in weapon_data.weapon_tags:
 			tag_counts[tag] = tag_counts.get(tag, 0) + 1

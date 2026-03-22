@@ -34,6 +34,7 @@ func _ready() -> void:
 
 	# Connect joystick to player
 	virtual_joystick.input_changed.connect(_on_joystick_input)
+	print("[GameHUD] VirtualJoystick connected, position: ", virtual_joystick.global_position, " size: ", virtual_joystick.size)
 
 	# Initialize XP display
 	_update_xp_display()
@@ -64,14 +65,19 @@ func _on_enemy_died(enemy: Node, position: Vector2) -> void:
 		kill_label.text = tr("HUD_KILLS") % current_kills
 
 func _on_joystick_input(input_vector: Vector2) -> void:
+	print("[GameHUD] Joystick input received: ", input_vector)
 	# Find player and set input
 	if player == null:
 		var player_nodes = get_tree().get_nodes_in_group("player")
 		if player_nodes.size() > 0:
 			player = player_nodes[0]
+			print("[GameHUD] Found player: ", player.name)
 
 	if player and player.has_method("set_joystick_input"):
 		player.set_joystick_input(input_vector)
+		print("[GameHUD] Set joystick input to player: ", input_vector)
+	else:
+		print("[GameHUD] Warning: Player not found or set_joystick_input method missing")
 
 func _on_xp_gained(current_xp: int, xp_required: int) -> void:
 	_update_xp_display()
@@ -81,7 +87,7 @@ func _on_level_up(new_level: int) -> void:
 
 func _update_xp_display() -> void:
 	if experience_bar:
-		experience_bar.max_value = ExperienceManager.xp_required
+		experience_bar.max_value = ExperienceManager.get_xp_required_for_level(ExperienceManager.current_level)
 		experience_bar.value = ExperienceManager.current_xp
 
 	if level_label:

@@ -147,5 +147,5 @@ func _drop_rewards() -> void:
 		coin.global_position = global_position
 		coin.set_value(gold_reward)
 
-	# Drop XP
-	ExperienceManager.gain_xp(1)
+	# Drop XP - increased for better progression
+	ExperienceManager.gain_xp(3)

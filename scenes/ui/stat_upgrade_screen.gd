@@ -47,11 +47,11 @@ func _ready() -> void:
 	option_2_button.pressed.connect(_on_option_selected.bind(1))
 	option_3_button.pressed.connect(_on_option_selected.bind(2))
 
-	# Connect to level up event
-	EventBus.level_up.connect(_on_level_up)
-
 	# Hide initially
 	visible = false
+
+	# Set up layout
+	_update_layout()
 
 ## Load all stat upgrade resources from disk
 func _load_stat_pool() -> void:
@@ -82,10 +82,21 @@ func _load_stat_pool() -> void:
 
 	print("[StatUpgradeScreen] Loaded %d stat upgrades" % stat_pool.size())
 
-## Called when player levels up
-func _on_level_up(new_level: int) -> void:
-	if ExperienceManager.pending_stat_picks > 0:
-		show_upgrade_selection()
+## Update layout to be properly sized and centered
+func _update_layout() -> void:
+	# Set proper size for the panel
+	self.custom_minimum_size = Vector2(800, 600)
+	self.size_flags_horizontal = Control.SIZE_EXPAND
+	self.size_flags_vertical = Control.SIZE_EXPAND
+	
+	# Center the panel on screen
+	# Get viewport size correctly and convert to Vector2
+	var viewport_size = Vector2(get_viewport().size.x, get_viewport().size.y)
+	self.global_position = viewport_size / 2 - self.size / 2
+	
+	print("[StatUpgradeScreen] Layout updated - size: ", self.size, " position: ", self.global_position)
+
+# Removed custom show() method to avoid overriding CanvasItem.show()
 
 ## Show the upgrade screen with 3 random options
 func show_upgrade_selection() -> void:
@@ -103,7 +114,27 @@ func show_upgrade_selection() -> void:
 
 	# Show panel and pause game
 	visible = true
+	# Ensure all option containers are visible
+	option_1_container.visible = true
+	option_2_container.visible = true
+	option_3_container.visible = true
+	# Ensure all buttons are enabled
+	option_1_button.disabled = false
+	option_2_button.disabled = false
+	option_3_button.disabled = false
+	
+	# Bring panel to front
+	move_to_front()
+	
+	# Pause game but allow UI input
 	get_tree().paused = true
+	process_mode = PROCESS_MODE_ALWAYS
+	
+	# Debug button states
+	print("[StatUpgradeScreen] Button 1 - enabled: ", option_1_button.disabled, " visible: ", option_1_button.visible)
+	print("[StatUpgradeScreen] Button 2 - enabled: ", option_2_button.disabled, " visible: ", option_2_button.visible)
+	print("[StatUpgradeScreen] Button 3 - enabled: ", option_3_button.disabled, " visible: ", option_3_button.visible)
+	
 	print("[StatUpgradeScreen] Showing upgrade selection")
 
 ## Generate random stat options with rarity rolling
@@ -156,8 +187,15 @@ func _display_option(index: int, option: Dictionary) -> void:
 			option_3_rarity.text = rarity_name
 			option_3_rarity.add_theme_color_override("font_color", rarity_color)
 
+## Ensure panel can receive input when visible
+func _input(event: InputEvent) -> void:
+	if visible:
+		# Capture all input when panel is visible
+		get_tree().root.set_input_as_handled()
+
 ## Called when player selects an option
 func _on_option_selected(index: int) -> void:
+	print("[StatUpgradeScreen] Option ", index, " selected")
 	if index < 0 or index >= current_options.size():
 		return
 
@@ -184,7 +222,13 @@ func _on_option_selected(index: int) -> void:
 		await get_tree().create_timer(0.1).timeout
 		show_upgrade_selection()
 	else:
-		# All picks done, transition to shop
+		# All picks done, transition to next wave
 		get_tree().paused = false
-		GameManager.set_state(GameManager.GameState.SHOP)
-		print("[StatUpgradeScreen] All picks done, transitioning to shop")
+		GameManager.set_state(GameManager.GameState.PLAYING)
+		# Reset wave manager state and start countdown
+		if get_tree().has_node("/root/GameManager/WaveManager"):
+			var wave_manager = get_tree().get_node("/root/GameManager/WaveManager")
+			wave_manager.wave_state = wave_manager.WaveState.COUNTDOWN
+			wave_manager.countdown_remaining = wave_manager.countdown_duration
+			EventBus.wave_completed.emit(wave_manager.current_wave - 1)
+		print("[StatUpgradeScreen] All picks done, transitioning to next wave")

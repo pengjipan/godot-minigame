@@ -33,12 +33,17 @@ func _ready() -> void:
 	print("[GameWorld] Creating game systems...")
 
 	wave_manager = WaveManager.new()
-	add_child(wave_manager)
-
+	
 	spawn_system = SpawnSystem.new()
 	spawn_system.name = "SpawnSystem"
 	spawn_system.spawn_parent = self
+	
+	# Set spawn_system reference before adding to scene tree
+	wave_manager.spawn_system = spawn_system
+	
+	# Add systems to scene tree
 	wave_manager.add_child(spawn_system)
+	add_child(wave_manager)
 
 	experience_system = ExperienceSystem.new()
 	add_child(experience_system)
@@ -61,10 +66,11 @@ func _ready() -> void:
 	GameManager.is_game_running = true
 	print("[GameWorld] Game is running: ", GameManager.is_game_running)
 
-	# Manually trigger wave start if needed
-	await get_tree().create_timer(0.5).timeout
-	print("[GameWorld] Triggering wave start...")
-	EventBus.wave_started.emit(1)
+	# Start the game immediately after all systems are ready
+	print("[GameWorld] Starting wave 1 immediately...")
+	# Directly start the first wave instead of using event
+	if wave_manager:
+		wave_manager._start_wave()
 
 func _process(delta: float) -> void:
 	pass

@@ -126,6 +126,7 @@ func _physics_process(delta: float) -> void:
 ## Set joystick input from UI
 func set_joystick_input(input_vec: Vector2) -> void:
 	joystick_input = input_vec
+	print("[Player] Joystick input received: ", input_vec)
 
 ## Find nearest enemy for auto-aim
 func _update_nearest_enemy() -> void:

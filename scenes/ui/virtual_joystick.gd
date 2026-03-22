@@ -25,19 +25,38 @@ func get_input_vector() -> Vector2:
 	return input_vector
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch:
-		var touch_event = event as InputEventScreenTouch
-		var touch_pos = touch_event.position
+	# Handle both touch and mouse input for testing
+	if event is InputEventScreenTouch or (event is InputEventMouseButton and event.pressed):
+		var touch_pos = Vector2.ZERO
+		var pressed = false
+		var index = 0
+		
+		if event is InputEventScreenTouch:
+			var touch_event = event as InputEventScreenTouch
+			touch_pos = touch_event.position
+			pressed = touch_event.pressed
+			index = touch_event.index
+		elif event is InputEventMouseButton:
+			var mouse_event = event as InputEventMouseButton
+			touch_pos = mouse_event.position
+			pressed = mouse_event.pressed
+			index = 0
 
-		if touch_event.pressed:
-			# Check if touch is within joystick area
-			if get_rect().has_point(get_local_mouse_position()):
+		if pressed:
+			# Check if touch/mouse is within joystick area
+			print("[VirtualJoystick] Touch/mouse pressed at global: ", touch_pos)
+			
+			# For Control nodes, use get_global_rect() to check if point is inside
+			if get_global_rect().has_point(touch_pos):
 				is_pressed = true
-				touch_index = touch_event.index
+				touch_index = index
 				_update_joystick_position(touch_pos)
 				get_tree().root.set_input_as_handled()
+				print("[VirtualJoystick] Input accepted")
+			else:
+				print("[VirtualJoystick] Input outside joystick area")
 		else:
-			if touch_event.index == touch_index:
+			if (event is InputEventMouseButton) or (event is InputEventScreenTouch and event.index == touch_index):
 				is_pressed = false
 				touch_index = -1
 				input_vector = Vector2.ZERO
@@ -46,15 +65,25 @@ func _input(event: InputEvent) -> void:
 				queue_redraw()
 				get_tree().root.set_input_as_handled()
 
-	elif event is InputEventScreenDrag:
-		var drag_event = event as InputEventScreenDrag
-		if is_pressed and drag_event.index == touch_index:
-			_update_joystick_position(drag_event.position)
-			get_tree().root.set_input_as_handled()
+	elif event is InputEventScreenDrag or event is InputEventMouseMotion:
+		if is_pressed:
+			var drag_pos = Vector2.ZERO
+			
+			if event is InputEventScreenDrag:
+				var drag_event = event as InputEventScreenDrag
+				if drag_event.index == touch_index:
+					drag_pos = drag_event.position
+					_update_joystick_position(drag_pos)
+					get_tree().root.set_input_as_handled()
+			elif event is InputEventMouseMotion:
+				drag_pos = event.position
+				_update_joystick_position(drag_pos)
+				get_tree().root.set_input_as_handled()
 
 ## Update joystick based on touch position
 func _update_joystick_position(touch_pos: Vector2) -> void:
-	var local_pos = get_local_mouse_position()
+	# For Control nodes, convert global touch position to local coordinates
+	var local_pos = position + (touch_pos - global_position)
 	var delta = local_pos - (size / 2)
 
 	# Limit to radius
@@ -71,6 +100,7 @@ func _update_joystick_position(touch_pos: Vector2) -> void:
 	else:
 		input_vector = raw_input.normalized()
 
+	print("[VirtualJoystick] Updated joystick - local_pos: ", local_pos, " delta: ", delta, " input_vector: ", input_vector)
 	input_changed.emit(input_vector)
 	queue_redraw()
 

@@ -34,6 +34,7 @@ signal item_picked_up(item_name: String)
 signal wave_started(wave_number: int)
 signal wave_completed(wave_number: int)
 signal wave_time_updated(time_remaining: float)
+signal all_enemies_spawned(wave_number: int, enemy_count: int)
 
 # Game state events
 signal game_paused

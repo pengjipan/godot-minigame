@@ -94,7 +94,7 @@ func _on_refresh_pressed() -> void:
 	var owned_weapons = []
 	if player and player.has_node("Inventory"):
 		var inventory = player.get_node("Inventory")
-		if inventory.has("weapon_data_list"):
+		if "weapon_data_list" in inventory:
 			owned_weapons = inventory.weapon_data_list
 
 	# Purchase refresh
