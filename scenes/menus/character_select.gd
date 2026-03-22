@@ -23,7 +23,8 @@ func _ready() -> void:
 		var char_name = tr(char_data.character_name)
 		var char_desc = tr(char_data.description)
 		button.text = char_name + "\n" + char_desc
-		button.custom_minimum_size = Vector2(0, 120)
+		button.custom_minimum_size = Vector2(0, 200)
+		button.add_theme_font_size_override("font_size", 32)
 		button.pressed.connect(_on_character_selected.bind(char_data))
 		character_container.add_child(button)
 

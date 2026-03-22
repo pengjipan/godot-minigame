@@ -133,8 +133,8 @@ func _display_option(index: int, option: Dictionary) -> void:
 	var rarity: int = option.rarity
 	var value: float = option.value
 
-	var rarity_name := StatUpgradeData.Rarity.keys()[rarity]
-	var rarity_color := RARITY_COLORS.get(rarity_name, Color.WHITE)
+	var rarity_name: String = StatUpgradeData.Rarity.keys()[rarity]
+	var rarity_color: Color = RARITY_COLORS.get(rarity_name, Color.WHITE)
 
 	# Format value as percentage (0.08 -> "+8%")
 	var value_text := "+%.1f%%" % (value * 100)

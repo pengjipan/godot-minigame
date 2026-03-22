@@ -43,8 +43,8 @@ TAG_HEAVY,Heavy,重型
 TAG_BURST,Burst,连发
 TAG_SUSTAINED,Sustained,持续
 TAG_PIERCING,Piercing,穿透
-WEAPON_BONUS_FOR,+%.0f%% for %s,对%s +%.0f%%
-WEAPON_PENALTY_FOR,%.0f%% for %s,对%s %.0f%%
+WEAPON_BONUS_FOR,+%.0f%% for %s,+%.0f%% 对%s
+WEAPON_PENALTY_FOR,%.0f%% for %s,%.0f%% 对%s
 GAME_OVER_TITLE,GAME OVER,游戏结束
 GAME_OVER_STATS,Stats...,游戏统计数据...
 GAME_OVER_RETRY,TRY AGAIN,再来一局

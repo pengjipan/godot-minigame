@@ -9,7 +9,17 @@
       "WebFetch(domain:developer.open-douyin.com)",
       "Bash(git add:*)",
       "Bash(cd:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(find D:WorkVibeGameingmini-gametests -name *.gd -type f)",
+      "Bash(find D:WorkVibeGameingmini-gameresources -type f \\\\\\(-name *.tres -o -name *.gd \\\\\\))",
+      "Bash(git checkout:*)",
+      "Bash(git pull:*)",
+      "Bash(git merge:*)",
+      "Bash(git branch:*)",
+      "Bash(git commit -m \"docs: add Cycle 2 implementation plan \\(progression systems\\):*)",
+      "Bash(git commit -m \"feat\\(config\\): increase game window size to near full screen height:*)",
+      "Bash(git commit -m \"fix\\(ui\\): add localization and fix game start flow for weapon selection:*)",
+      "Bash(git commit -m \"feat\\(ui\\): scale up menu UIs for better visibility on portrait display:*)"
     ]
   }
 }

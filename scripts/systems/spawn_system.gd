@@ -68,6 +68,14 @@ func _spawn_enemy() -> void:
 
 	var player = player_nodes[0]
 
+	# Get world bounds from player (if available)
+	var world_bounds: Rect2
+	if player.has_method("get") and "world_bounds" in player:
+		world_bounds = player.world_bounds
+	else:
+		# Fallback to default bounds
+		world_bounds = Rect2(-200, -200, 1480, 2320)
+
 	# Spawn around player in a circle (300-500 pixels away for testing)
 	var spawn_distance = randf_range(300, 500)
 	var spawn_angle = randf_range(0, TAU)
@@ -75,6 +83,10 @@ func _spawn_enemy() -> void:
 		cos(spawn_angle) * spawn_distance,
 		sin(spawn_angle) * spawn_distance
 	)
+
+	# Clamp spawn position to world bounds
+	spawn_pos.x = clamp(spawn_pos.x, world_bounds.position.x + 50, world_bounds.position.x + world_bounds.size.x - 50)
+	spawn_pos.y = clamp(spawn_pos.y, world_bounds.position.y + 50, world_bounds.position.y + world_bounds.size.y - 50)
 
 	# Create enemy
 	var enemy = enemy_scene.instantiate()

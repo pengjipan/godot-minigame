@@ -8,7 +8,13 @@ var save_data: Dictionary = {
 	"version": 1,
 	"high_score": 0,
 	"total_runs": 0,
-	"characters_unlocked": []
+	"characters_unlocked": [],
+	"settings": {
+		"language": "",  # 空字符串表示使用系统语言
+		"master_volume": 1.0,
+		"music_volume": 1.0,
+		"sfx_volume": 1.0
+	}
 }
 
 var run_history: Array = []
@@ -80,7 +86,27 @@ func reset_save_data() -> void:
 		"version": 1,
 		"high_score": 0,
 		"total_runs": 0,
-		"characters_unlocked": []
+		"characters_unlocked": [],
+		"settings": {
+			"language": "",
+			"master_volume": 1.0,
+			"music_volume": 1.0,
+			"sfx_volume": 1.0
+		}
 	}
 	run_history.clear()
 	save_save_data()
+
+## Save a setting value
+func save_setting(setting_name: String, value) -> void:
+	if not save_data.has("settings"):
+		save_data["settings"] = {}
+	save_data["settings"][setting_name] = value
+	save_save_data()
+	print("[SaveManager] 保存设置: ", setting_name, " = ", value)
+
+## Get a setting value
+func get_setting(setting_name: String, default_value = null):
+	if save_data.has("settings"):
+		return save_data["settings"].get(setting_name, default_value)
+	return default_value
